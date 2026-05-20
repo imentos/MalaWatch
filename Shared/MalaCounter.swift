@@ -66,6 +66,9 @@ enum BeadGoal: Int, Codable, CaseIterable, Identifiable {
 
 enum MalaTheme: String, Codable, CaseIterable, Identifiable {
     case sandalwood
+    case rosewood
+    case walnut
+    case agarwood
     case jade
     case obsidian
     case graphite
@@ -75,13 +78,34 @@ enum MalaTheme: String, Codable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .sandalwood:
-            return "Sandalwood"
+            return "Basic Wood"
+        case .rosewood:
+            return "Rosewood"
+        case .walnut:
+            return "Walnut"
+        case .agarwood:
+            return "Agarwood"
         case .jade:
             return "Jade"
         case .obsidian:
             return "Obsidian"
         case .graphite:
             return "Graphite"
+        }
+    }
+
+    var isPremium: Bool {
+        self != .sandalwood
+    }
+
+    var materialNote: String {
+        switch self {
+        case .sandalwood:
+            return "Included"
+        case .rosewood, .walnut, .agarwood:
+            return "Premium wood grain"
+        case .jade, .obsidian, .graphite:
+            return "Premium material"
         }
     }
 }

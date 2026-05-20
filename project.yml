@@ -1,6 +1,6 @@
 name: MalaWatch
 options:
-  bundleIdPrefix: com.malawatch
+  bundleIdPrefix: rkuo
   deploymentTarget:
     iOS: "18.0"
     watchOS: "11.0"
@@ -19,18 +19,19 @@ targets:
       - path: MalaWatch iOS App
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.malawatch.ios
+        PRODUCT_BUNDLE_IDENTIFIER: rkuo.MalaWatch
         INFOPLIST_KEY_CFBundleDisplayName: MalaWatch
         INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
         TARGETED_DEVICE_FAMILY: 1
   MalaWatch Watch App:
-    type: application.watchapp2
+    type: application
     platform: watchOS
     sources:
       - path: Shared
       - path: MalaWatch Watch App
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.malawatch.watchkitapp
+        PRODUCT_BUNDLE_IDENTIFIER: rkuo.MalaWatch.watchkitapp
         INFOPLIST_KEY_CFBundleDisplayName: MalaWatch
+        INFOPLIST_KEY_WKWatchOnly: YES
         TARGETED_DEVICE_FAMILY: 4
