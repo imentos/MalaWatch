@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MalaWatch — Prayer Bead Counter</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      text-align: center;
+    }
+    header h1 { font-size: 17px; font-weight: 600; color: #1d1d1f; }
+    header p { font-size: 13px; color: #6e6e73; margin-top: 2px; }
+    nav {
+      text-align: center;
+      padding: 10px 24px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.5);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    nav a { color: #0071e3; text-decoration: none; margin: 0 10px; }
+    nav a:hover { text-decoration: underline; }
+    .hero {
+      background: linear-gradient(160deg, #1a0a06 0%, #3d1a08 50%, #6b2e0e 100%);
+      color: white;
+      text-align: center;
+      padding: 64px 24px 72px;
+    }
+    .hero-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #c8722a, #7a3510);
+      border-radius: 20px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .hero h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+    .hero p { font-size: 18px; color: rgba(255,255,255,0.82); max-width: 480px; margin: 0 auto 28px; }
+    .app-store-btn {
+      display: inline-block;
+      background: white;
+      color: #1d1d1f;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 13px 30px;
+      border-radius: 980px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+    .app-store-btn:hover { opacity: 0.9; }
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 24px 60px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1d1d1f;
+    }
+    .link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 520px) { .link-grid { grid-template-columns: 1fr; } }
+    .link-tile {
+      background: #f5f5f7;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #1d1d1f;
+      display: block;
+      transition: background 0.15s;
+    }
+    .link-tile:hover { background: #e8e8ed; }
+    .link-tile .icon { font-size: 28px; margin-bottom: 8px; }
+    .link-tile h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .link-tile p { font-size: 13px; color: #6e6e73; }
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #6e6e73;
+    }
+    footer a { color: #0071e3; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MalaWatch</h1>
+  <p>Prayer Bead Counter</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="support.html">Support</a>
+  <a href="terms.html">Terms of Use</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-icon">&#x2728;</div>
+  <h2>MalaWatch</h2>
+  <p>A beautiful mala bead counter for iPhone and Apple Watch — with 3D bead wheel, Om Mani Padme Hum chant guide, and haptic feedback.</p>
+  <a href="#" class="app-store-btn">Download on the App Store</a>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>App Pages</h2>
+    <div class="link-grid">
+      <a href="support.html" class="link-tile">
+        <div class="icon">&#x2753;</div>
+        <h3>Support</h3>
+        <p>FAQs and help</p>
+      </a>
+      <a href="terms.html" class="link-tile">
+        <div class="icon">&#x1F4DC;</div>
+        <h3>Terms of Use</h3>
+        <p>Usage agreement</p>
+      </a>
+      <a href="privacy-policy.html" class="link-tile">
+        <div class="icon">&#x1F512;</div>
+        <h3>Privacy Policy</h3>
+        <p>No data collected</p>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 MalaWatch &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Use</a> &nbsp;·&nbsp; <a href="support.html">Support</a></p>
+</footer>
+
+</body>
+</html>

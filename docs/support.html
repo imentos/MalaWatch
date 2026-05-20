@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — MalaWatch</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      line-height: 1.6;
+    }
+    header {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      text-align: center;
+    }
+    header h1 { font-size: 17px; font-weight: 600; color: #1d1d1f; }
+    header p { font-size: 13px; color: #6e6e73; margin-top: 2px; }
+    nav {
+      text-align: center;
+      padding: 10px 24px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.5);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    nav a { color: #0071e3; text-decoration: none; margin: 0 10px; }
+    nav a:hover { text-decoration: underline; }
+    .container {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 24px 60px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 36px 40px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #1d1d1f;
+    }
+    .faq-item {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px 0;
+    }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .faq-item h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 6px;
+    }
+    .faq-item p { font-size: 15px; color: #3a3a3c; margin: 0; }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    @media (max-width: 520px) { .feature-grid { grid-template-columns: 1fr; } }
+    .feature-tile {
+      background: #f5f5f7;
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .feature-tile h4 { font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
+    .feature-tile p { font-size: 13px; color: #6e6e73; margin: 0; }
+    .contact-box {
+      background: linear-gradient(135deg, #3d1a08 0%, #6b2e0e 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      color: white;
+      text-align: center;
+    }
+    .contact-box h2 { color: white; margin-bottom: 8px; }
+    .contact-box p { color: rgba(255,255,255,0.85); margin-bottom: 18px; }
+    .contact-btn {
+      display: inline-block;
+      background: white;
+      color: #3d1a08;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 11px 28px;
+      border-radius: 980px;
+      text-decoration: none;
+      margin: 6px 8px;
+    }
+    .contact-btn:hover { opacity: 0.9; }
+    .tip {
+      background: #fff8e1;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 10px;
+    }
+    .tip p { font-size: 14px; color: #7c4d00; margin: 0; }
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #6e6e73;
+    }
+    footer a { color: #0071e3; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MalaWatch</h1>
+  <p>Prayer Bead Counter</p>
+</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="support.html">Support</a>
+  <a href="terms.html">Terms of Use</a>
+  <a href="privacy-policy.html">Privacy Policy</a>
+</nav>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Features at a Glance</h2>
+    <div class="feature-grid">
+      <div class="feature-tile">
+        <h4>3D Bead Wheel</h4>
+        <p>Tap or swipe to count beads with haptic feedback on every bead.</p>
+      </div>
+      <div class="feature-tile">
+        <h4>Chant Guide</h4>
+        <p>Om Mani Padme Hum — one syllable at a time, with voice in Follow mode.</p>
+      </div>
+      <div class="feature-tile">
+        <h4>Bead Goals</h4>
+        <p>Set your goal to 27, 54, or 108 beads per round.</p>
+      </div>
+      <div class="feature-tile">
+        <h4>Round Tracking</h4>
+        <p>Count completed rounds and view your session progress.</p>
+      </div>
+      <div class="feature-tile">
+        <h4>7 Bead Themes</h4>
+        <p>Sandalwood is free. Premium unlocks Rosewood, Walnut, Agarwood, Jade, Obsidian, and Graphite.</p>
+      </div>
+      <div class="feature-tile">
+        <h4>Apple Watch</h4>
+        <p>Count from your wrist with tap or Digital Crown. Premium feature.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h3>How do I count beads?</h3>
+      <p>Tap anywhere on the bead wheel to advance one bead, or swipe up to count. When you reach your bead goal (27, 54, or 108), the app completes the round with a pulse of haptic feedback and increments your round counter.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How does the chant guide work?</h3>
+      <p>The chant bar at the top shows the six syllables of Om Mani Padme Hum. The current syllable lights up as you count. In <strong>Follow mode</strong>, the app speaks each syllable aloud as you advance — keeping your rhythm without looking at the screen. In <strong>Silent mode</strong>, the syllables are highlighted visually only.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>The voice isn't speaking — how do I fix it?</h3>
+      <p>Make sure your iPhone is not in Silent mode (check the physical ring/silent switch on the side). Also ensure the volume is turned up. The chant voice uses your device's built-in text-to-speech, so it respects your system volume and mute settings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I change my bead goal?</h3>
+      <p>Open Settings (the gear icon on the main screen) and tap <strong>Bead Goal</strong> to choose 27, 54, or 108.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I reset my count?</h3>
+      <p>Swipe down on the bead wheel or tap the <strong>Reset</strong> button in the top-left corner to reset the current round back to bead 1. Your completed rounds are preserved. To reset all rounds, use the Reset option in Settings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I change the bead theme?</h3>
+      <p>Open Settings and tap <strong>Bead Style</strong> to see all seven themes. Sandalwood is free. The six premium themes (Rosewood, Walnut, Agarwood, Jade, Obsidian, Graphite) require MalaWatch Premium.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>What is MalaWatch Premium?</h3>
+      <p>MalaWatch Premium is a one-time purchase that unlocks all six premium bead materials and the Apple Watch companion app. It's yours forever — no subscription.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I restore my purchase after reinstalling?</h3>
+      <p>Open Settings in the app and tap <strong>Restore Purchase</strong>. You must be signed into the same Apple ID that made the original purchase.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does MalaWatch work on Apple Watch?</h3>
+      <p>Yes — the Apple Watch companion app is included with MalaWatch Premium. Open the MalaWatch app on your Watch to count with a tap or the Digital Crown. Each bead gives a click haptic, and completing a round gives a success pattern.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Does MalaWatch require an internet connection?</h3>
+      <p>No. MalaWatch is fully offline. It never connects to the internet. Your practice data is stored locally on your device only.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I use MalaWatch for practices other than Buddhist chanting?</h3>
+      <p>Absolutely. MalaWatch works for any counting practice — Catholic rosary prayers, Hindu japa, affirmations, breathwork, or any personal ritual. You can set a custom label in Settings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Will my practice data sync across devices?</h3>
+      <p>Not in version 1.0. iCloud sync across devices is planned for a future update. Currently, your count history lives on the device where you practice.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I request a refund?</h3>
+      <p>Refund requests are handled by Apple. Visit <a href="https://reportaproblem.apple.com" target="_blank">reportaproblem.apple.com</a> to submit a refund request.</p>
+    </div>
+  </div>
+
+  <div class="contact-box">
+    <h2>Still Need Help?</h2>
+    <p>Reach out — we respond to every message.</p>
+    <a href="mailto:support@malawatch.app" class="contact-btn">Email Support</a>
+    <a href="https://github.com/imentos/MalaWatch/issues" target="_blank" class="contact-btn">GitHub Issues</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 MalaWatch &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Use</a> &nbsp;·&nbsp; <a href="support.html">Support</a></p>
+</footer>
+
+</body>
+</html>
