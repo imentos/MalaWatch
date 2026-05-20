@@ -348,10 +348,15 @@ MalaWatch collects no user data. Write a minimal policy and host it.
 - [ ] Upload 1024×1024 app icon
 - [ ] Upload 5 iPhone 6.7" screenshots
 - [ ] Add privacy policy URL: `https://imentos.github.io/MalaWatch/privacy-policy.html`
+- [ ] Add support URL: `https://imentos.github.io/MalaWatch/support.html`
+- [ ] Add End User License Agreement (EULA) URL: `https://imentos.github.io/MalaWatch/terms.html`
+  *(App Store Connect → App Information → End User License Agreement — links your ToU to the IAP purchase flow)*
 
 ### Privacy & Compliance
 
 - [x] Write and host privacy policy (`https://imentos.github.io/MalaWatch/privacy-policy.html`)
+- [x] Write and host Terms of Use / EULA (`https://imentos.github.io/MalaWatch/terms.html`)
+- [x] Write and host support page (`https://imentos.github.io/MalaWatch/support.html`)
 - [ ] Complete App Store Connect privacy survey (Data Not Collected)
 - [ ] Export compliance: **No** (no custom encryption beyond standard iOS)
 - [ ] Content rights: confirm you own all assets
