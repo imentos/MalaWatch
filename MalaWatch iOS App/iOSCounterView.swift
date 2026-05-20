@@ -25,8 +25,7 @@ struct iOSCounterView: View {
                 .padding(.horizontal, 22)
                 .padding(.vertical, 18)
             }
-            .navigationTitle("Mala")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -54,7 +53,7 @@ struct iOSCounterView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
-        .padding(.top, 10)
+        .padding(.top, 4)
     }
 
     private var progressSummary: some View {
@@ -114,8 +113,9 @@ private struct MalaBeadWheel: View {
                         .blur(radius: 18)
 
                     CordStrand(colors: colors)
-                        .frame(width: size.width * 0.38, height: size.height * 0.92)
-                        .position(center)
+                        .frame(width: size.width * 0.22, height: size.height * 0.90)
+                        .position(x: center.x + 2, y: center.y)
+                        .opacity(0.34)
 
                     ForEach(visibleOffsets, id: \.self) { offset in
                         let relative = CGFloat(offset) + normalizedDrag
@@ -185,9 +185,9 @@ private struct MalaBeadWheel: View {
         let distance = abs(relative)
         let perspective = max(0, 1 - distance * 0.17)
         let prominence = max(0, 1 - distance * 0.24)
-        let curve = sin(relative * 0.58)
+        let curve = sin(relative * 0.36)
         let y = center.y + relative * spacing
-        let x = center.x + curve * 58
+        let x = center.x + curve * 34
         let size = 72 * max(0.46, perspective)
         let opacity = max(0.18, 1 - distance * 0.15)
         let blur = max(0, distance - 3.2) * 0.7
@@ -265,18 +265,14 @@ private struct CordStrand: View {
 
     var body: some View {
         ZStack {
-            Path { path in
-                path.move(to: CGPoint(x: 62, y: 6))
-                path.addCurve(to: CGPoint(x: 64, y: 132), control1: CGPoint(x: 18, y: 38), control2: CGPoint(x: 116, y: 88))
-                path.addCurve(to: CGPoint(x: 62, y: 276), control1: CGPoint(x: 8, y: 178), control2: CGPoint(x: 116, y: 230))
-            }
-            .stroke(colors.cord.opacity(0.68), style: StrokeStyle(lineWidth: 5, lineCap: .round))
+            Capsule()
+                .fill(colors.cord.opacity(0.42))
+                .frame(width: 4)
 
-            Path { path in
-                path.move(to: CGPoint(x: 69, y: 12))
-                path.addCurve(to: CGPoint(x: 68, y: 268), control1: CGPoint(x: 88, y: 78), control2: CGPoint(x: 42, y: 190))
-            }
-            .stroke(.white.opacity(0.18), style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
+            Capsule()
+                .fill(.white.opacity(0.12))
+                .frame(width: 1.2)
+                .offset(x: 2)
         }
     }
 }
