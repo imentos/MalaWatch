@@ -5,8 +5,25 @@ import UIKit
 private let chantSyllables = ["Om", "Ma", "Ni", "Pad", "Me", "Hum"]
 private let chantPronunciations = ["Ohm", "Mah", "Nee", "Pahd", "May", "Hoom"]
 
+private enum ChantVoiceMode: String, CaseIterable, Identifiable {
+    case follow
+    case silent
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .follow:
+            return "Follow"
+        case .silent:
+            return "Silent"
+        }
+    }
+}
+
 struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
+    @AppStorage("mala.chant.voiceMode") private var chantVoiceMode = ChantVoiceMode.follow.rawValue
     @State private var spokenSyllableIndex = 0
     @State private var chantPulse = false
     @State private var chantSpeaker = ChantSpeaker()
@@ -25,7 +42,6 @@ struct iOSCounterView: View {
                             currentIndex: spokenSyllableIndex,
                             pulse: chantPulse
                         )
-                        .padding(.trailing, 76)
 
                         MalaBeadWheel(
                             counter: store.counter,
@@ -35,7 +51,10 @@ struct iOSCounterView: View {
 
                         progressSummary
 
-                        CounterSettingsPanel(store: store)
+                        CounterSettingsPanel(
+                            store: store,
+                            chantVoiceMode: $chantVoiceMode
+                        )
                     }
                     .padding(.horizontal, 22)
                     .padding(.top, proxy.safeAreaInsets.top + 12)
@@ -95,7 +114,9 @@ struct iOSCounterView: View {
             spokenSyllableIndex = nextSyllableIndex
             chantPulse.toggle()
         }
-        chantSpeaker.speak(chantPronunciations[nextSyllableIndex])
+        if chantVoiceMode == ChantVoiceMode.follow.rawValue {
+            chantSpeaker.speak(chantPronunciations[nextSyllableIndex])
+        }
 
         switch event {
         case .countedBead:
@@ -313,9 +334,17 @@ private struct WheelShadow: Shape {
 
 private struct CounterSettingsPanel: View {
     @Bindable var store: MalaStore
+    @Binding var chantVoiceMode: String
 
     var body: some View {
         VStack(spacing: 18) {
+            Picker("Voice", selection: $chantVoiceMode) {
+                ForEach(ChantVoiceMode.allCases) { mode in
+                    Text(mode.title).tag(mode.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
+
             Picker("Goal", selection: $store.counter.beadGoal) {
                 ForEach(BeadGoal.allCases) { goal in
                     Text(goal.title).tag(goal)
