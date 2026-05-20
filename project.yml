@@ -1,0 +1,35 @@
+name: MalaWatch
+options:
+  bundleIdPrefix: com.malawatch
+  deploymentTarget:
+    iOS: "18.0"
+    watchOS: "11.0"
+settings:
+  base:
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 1
+    SWIFT_VERSION: 6.0
+    GENERATE_INFOPLIST_FILE: YES
+targets:
+  MalaWatch iOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: Shared
+      - path: MalaWatch iOS App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.malawatch.ios
+        INFOPLIST_KEY_CFBundleDisplayName: MalaWatch
+        TARGETED_DEVICE_FAMILY: 1
+  MalaWatch Watch App:
+    type: application.watchapp2
+    platform: watchOS
+    sources:
+      - path: Shared
+      - path: MalaWatch Watch App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.malawatch.watchkitapp
+        INFOPLIST_KEY_CFBundleDisplayName: MalaWatch
+        TARGETED_DEVICE_FAMILY: 4
