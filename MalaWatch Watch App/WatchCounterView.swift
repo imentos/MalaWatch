@@ -136,7 +136,7 @@ private struct WatchMalaBeads: View {
         GeometryReader { proxy in
             let size = proxy.size
             let center = CGPoint(x: size.width / 2, y: size.height * 0.48)
-            let spacing = min(size.height * 0.118, 20)
+            let spacing = min(size.height * 0.220, 54)
             let displayCount = max(counter.currentCount, 1)
 
             ZStack {

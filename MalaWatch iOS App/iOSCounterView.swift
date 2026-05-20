@@ -213,7 +213,7 @@ private struct MalaBeadWheel: View {
             GeometryReader { proxy in
                 let size = proxy.size
                 let center = CGPoint(x: size.width / 2, y: size.height / 2)
-                let spacing = min(size.height * 0.095, 35)
+                let spacing = min(size.height * 0.155, 88)
                 let normalizedDrag = dragOffset / spacing
                 let displayCount = visualBaseCount(isDraggingDown: dragOffset > 0.5)
 
