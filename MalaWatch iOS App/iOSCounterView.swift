@@ -112,10 +112,6 @@ private struct MalaBeadWheel: View {
                         .position(x: center.x + 28, y: center.y + 18)
                         .blur(radius: 18)
 
-                    CordStrand(colors: colors)
-                        .frame(width: size.width * 0.22, height: size.height * 0.90)
-                        .position(x: center.x + 2, y: center.y)
-                        .opacity(0.34)
 
                     ForEach(visibleOffsets, id: \.self) { offset in
                         let relative = CGFloat(offset) + normalizedDrag
@@ -242,23 +238,6 @@ private struct RollingBead3D: View {
 
     private var beadColors: [Color] {
         isCenter ? colors.currentBead : colors.bead
-    }
-}
-
-private struct CordStrand: View {
-    let colors: ThemeColors
-
-    var body: some View {
-        ZStack {
-            Capsule()
-                .fill(colors.cord.opacity(0.42))
-                .frame(width: 4)
-
-            Capsule()
-                .fill(.white.opacity(0.12))
-                .frame(width: 1.2)
-                .offset(x: 2)
-        }
     }
 }
 
