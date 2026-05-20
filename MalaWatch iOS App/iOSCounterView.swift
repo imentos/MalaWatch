@@ -134,21 +134,6 @@ private struct MalaBeadWheel: View {
                         .blur(radius: placement.blur)
                         .zIndex(placement.zIndex)
                     }
-
-                    VStack(spacing: 3) {
-                        Text("\(counter.currentCount)")
-                            .font(.system(size: 26, weight: .semibold, design: .rounded))
-                            .monospacedDigit()
-
-                        Text("/ \(counter.beadGoal.rawValue)")
-                            .font(.caption.weight(.medium))
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 10)
-                    .background(.regularMaterial, in: Capsule())
-                    .shadow(color: .black.opacity(0.16), radius: 12, y: 8)
-                    .position(x: center.x, y: size.height - 28)
                 }
             }
             .frame(height: 286)
