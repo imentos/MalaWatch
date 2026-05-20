@@ -1,8 +1,15 @@
+import AVFoundation
 import SwiftUI
 import UIKit
 
+private let chantSyllables = ["Om", "Ma", "Ni", "Pad", "Me", "Hum"]
+private let chantPronunciations = ["Ohm", "Mah", "Nee", "Pahd", "May", "Hoom"]
+
 struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
+    @State private var spokenSyllableIndex = 0
+    @State private var chantPulse = false
+    @State private var chantSpeaker = ChantSpeaker()
 
     var body: some View {
         GeometryReader { proxy in
@@ -13,8 +20,12 @@ struct iOSCounterView: View {
 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 14) {
-                        header
-                            .padding(.trailing, 76)
+                        ChantGuide(
+                            syllables: chantSyllables,
+                            currentIndex: spokenSyllableIndex,
+                            pulse: chantPulse
+                        )
+                        .padding(.trailing, 76)
 
                         MalaBeadWheel(
                             counter: store.counter,
@@ -56,22 +67,6 @@ struct iOSCounterView: View {
         .background(themeBackground.ignoresSafeArea(.all))
     }
 
-    private var header: some View {
-        VStack(spacing: 8) {
-            Text(store.counter.label)
-                .font(.title3.weight(.medium))
-                .foregroundStyle(.primary)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-                .minimumScaleFactor(0.75)
-
-            Text("Prayer Beads Counter")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-        }
-        .padding(.top, 0)
-    }
-
     private var progressSummary: some View {
         HStack(spacing: 12) {
             StatTile(title: "Rounds", value: "\(store.counter.completedRounds)")
@@ -93,13 +88,63 @@ struct iOSCounterView: View {
     }
 
     private func countBead() {
+        let nextSyllableIndex = chantIndex(forCount: store.counter.currentCount + 1)
         let event = store.countBead()
+
+        withAnimation(.spring(response: 0.24, dampingFraction: 0.56)) {
+            spokenSyllableIndex = nextSyllableIndex
+            chantPulse.toggle()
+        }
+        chantSpeaker.speak(chantPronunciations[nextSyllableIndex])
+
         switch event {
         case .countedBead:
             Haptics.play(.light)
         case .completedRound:
             Haptics.notify(.success)
         }
+    }
+
+    private func chantIndex(forCount count: Int) -> Int {
+        let normalized = max(count - 1, 0)
+        return normalized % chantSyllables.count
+    }
+}
+
+
+private struct ChantGuide: View {
+    let syllables: [String]
+    let currentIndex: Int
+    let pulse: Bool
+
+    var body: some View {
+        VStack(spacing: 10) {
+            Text(syllables[currentIndex])
+                .font(.system(size: 52, weight: .semibold, design: .rounded))
+                .foregroundStyle(.black.opacity(0.86))
+                .minimumScaleFactor(0.7)
+                .lineLimit(1)
+                .scaleEffect(pulse ? 1.08 : 1)
+                .shadow(color: .white.opacity(0.24), radius: 10, y: 3)
+
+            HStack(spacing: 6) {
+                ForEach(syllables.indices, id: \.self) { index in
+                    Text(syllables[index])
+                        .font(.system(size: 13, weight: index == currentIndex ? .semibold : .medium, design: .rounded))
+                        .foregroundStyle(index == currentIndex ? .black.opacity(0.84) : .black.opacity(0.42))
+                        .frame(minWidth: 42)
+                        .padding(.vertical, 7)
+                        .background(
+                            Capsule()
+                                .fill(index == currentIndex ? .white.opacity(0.55) : .white.opacity(0.16))
+                        )
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Current chant syllable, \(syllables[currentIndex])")
     }
 }
 
@@ -344,6 +389,25 @@ private struct ThemeColors {
             currentBead = [Color(red: 0.98, green: 0.88, blue: 0.60), Color(red: 0.74, green: 0.55, blue: 0.26), Color(red: 0.28, green: 0.20, blue: 0.11)]
             cord = Color(red: 0.18, green: 0.19, blue: 0.18)
         }
+    }
+}
+
+
+@MainActor
+private final class ChantSpeaker {
+    private let synthesizer = AVSpeechSynthesizer()
+
+    func speak(_ syllable: String) {
+        if synthesizer.isSpeaking {
+            synthesizer.stopSpeaking(at: .immediate)
+        }
+
+        let utterance = AVSpeechUtterance(string: syllable)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.38
+        utterance.pitchMultiplier = 0.96
+        utterance.volume = 0.85
+        synthesizer.speak(utterance)
     }
 }
 
