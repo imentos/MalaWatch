@@ -78,35 +78,40 @@ Mala, Japa & Mantra Tracker
 ### App Description (English)
 
 ```
-MalaWatch brings your mala practice to iPhone with a beautiful 3D bead wheel, Om Mani Padme Hum chant guide, and gentle haptic feedback on every bead.
+The mala counter that actually feels like practice.
 
-COUNT YOUR BEADS
-A large tactile bead wheel scrolls as you count — tap or swipe to advance. Every bead gives soft haptic feedback. Reaching 27, 54, or 108 triggers a completion pulse. It feels like holding real beads.
+MalaWatch gives you a tactile 3D bead wheel, Om Mani Padme Hum chant guide with voice, and a click of haptic feedback on every single bead — on iPhone and Apple Watch.
 
-FOLLOW THE CHANT
-The Om Mani Padme Hum guide highlights one syllable at a time as you count. Switch to Follow mode and the app speaks each syllable aloud — Om… Ma… Ni… Pad… Me… Hum — keeping your rhythm without needing to look away from your practice.
+FEEL EVERY BEAD
+A weighted 3D bead wheel scrolls as you count. Tap once or swipe up to advance. Every bead returns a soft haptic click. Reaching your goal — 27, 54, or 108 — sends a full completion pulse. It is the closest an iPhone gets to holding a real mala in your hand.
+
+HEAR THE CHANT
+The Om Mani Padme Hum guide lights up one syllable at a time as you count. In Follow mode, the app speaks each syllable aloud — Om… Ma… Ni… Pad… Me… Hum — so your eyes and breath can stay with your practice instead of the screen. In Silent mode, the syllable bar guides you visually.
 
 TRACK YOUR ROUNDS
-See completed rounds and current progress at a glance. Set your bead goal to 27, 54, or 108. Your practice saves automatically after every bead.
+Your round count and bead progress are always visible. Sessions save automatically after every bead — close the app mid-practice, come back, and pick up exactly where you left off.
+
+COUNT FROM YOUR WRIST (Premium)
+The Apple Watch companion lets you count with a tap or the Digital Crown — a click haptic on every bead, a success pattern when the round completes. Quiet, discrete, and always on your wrist.
 
 CHOOSE YOUR BEAD MATERIAL (Premium)
-Sandalwood is included free. Unlock Premium for Rosewood, Walnut, Agarwood, Jade, Obsidian, and Graphite — each with its own warm, realistic 3D rendering and background palette.
-
-APPLE WATCH COMPANION (Premium)
-Count quietly from your wrist with a tap or the Digital Crown. Glanceable round and progress display. Click haptic per bead, success pattern on completion. Perfect for discrete practice at the temple, on the cushion, or anywhere.
+Sandalwood is free. Unlock Premium for six more materials — Rosewood, Walnut, Agarwood, Jade, Obsidian, and Graphite. Each has its own 3D rendering, palette, and feel.
 
 PRIVATE AND OFFLINE
-No account. No internet required. Your practice never leaves your device.
+No account. No login. No internet connection. Your practice never leaves your device.
 
-WORKS FOR ANY PRACTICE
-Whether you chant mantras, count prayers, track affirmations, or practice breathwork — MalaWatch keeps the count so you can keep the focus.
+WORKS FOR ANY TRADITION
+Buddhist japa, Catholic rosary, Hindu mantra, breathwork rounds, affirmations, or any counting practice — MalaWatch holds the count so your mind doesn't have to.
 
 —
 
-MalaWatch Premium (one-time purchase)
-• 6 premium bead materials: Rosewood, Walnut, Agarwood, Jade, Obsidian, Graphite
+MalaWatch Premium — one-time purchase, yours forever
 • Apple Watch companion app
-• Future ritual packs and seasonal bead styles
+• 6 premium bead materials: Rosewood, Walnut, Agarwood, Jade, Obsidian, Graphite
+• Future seasonal bead packs
+
+Terms of Use: https://imentos.github.io/MalaWatch/terms.html
+Privacy Policy: https://imentos.github.io/MalaWatch/privacy-policy.html
 ```
 
 ---
