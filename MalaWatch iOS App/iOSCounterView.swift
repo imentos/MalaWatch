@@ -5,39 +5,55 @@ struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
 
     var body: some View {
-        NavigationStack {
-            ZStack {
+        GeometryReader { proxy in
+            ZStack(alignment: .topTrailing) {
                 themeBackground
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .ignoresSafeArea(.all)
 
-                VStack(spacing: 20) {
-                    header
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 14) {
+                        header
+                            .padding(.trailing, 76)
 
-                    MalaBeadWheel(
-                        counter: store.counter,
-                        colors: colors,
-                        onAdvance: countBead
-                    )
+                        MalaBeadWheel(
+                            counter: store.counter,
+                            colors: colors,
+                            onAdvance: countBead
+                        )
 
-                    progressSummary
+                        progressSummary
 
-                    CounterSettingsPanel(store: store)
-                }
-                .padding(.horizontal, 22)
-                .padding(.vertical, 18)
-            }
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        store.resetCurrentRound()
-                        Haptics.play(.light)
-                    } label: {
-                        Image(systemName: "arrow.counterclockwise")
+                        CounterSettingsPanel(store: store)
                     }
-                    .accessibilityLabel("Reset current round")
+                    .padding(.horizontal, 22)
+                    .padding(.top, proxy.safeAreaInsets.top + 12)
+                    .padding(.bottom, proxy.safeAreaInsets.bottom + 18)
+                    .frame(maxWidth: .infinity)
                 }
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .background(themeBackground.ignoresSafeArea(.all))
+                .scrollBounceBehavior(.basedOnSize)
+
+                Button {
+                    store.resetCurrentRound()
+                    Haptics.play(.light)
+                } label: {
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 28, weight: .medium))
+                        .foregroundStyle(.black)
+                        .frame(width: 60, height: 60)
+                        .background(.regularMaterial, in: Circle())
+                        .shadow(color: .black.opacity(0.16), radius: 10, y: 6)
+                }
+                .accessibilityLabel("Reset current round")
+                .padding(.top, proxy.safeAreaInsets.top + 8)
+                .padding(.trailing, 18)
             }
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .background(themeBackground.ignoresSafeArea(.all))
         }
+        .background(themeBackground.ignoresSafeArea(.all))
     }
 
     private var header: some View {
@@ -53,7 +69,7 @@ struct iOSCounterView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
-        .padding(.top, 4)
+        .padding(.top, 0)
     }
 
     private var progressSummary: some View {
@@ -133,6 +149,7 @@ private struct MalaBeadWheel: View {
                 }
             }
             .frame(height: 286)
+            .clipped()
             .contentShape(Rectangle())
             .gesture(dragGesture)
             .onTapGesture {
