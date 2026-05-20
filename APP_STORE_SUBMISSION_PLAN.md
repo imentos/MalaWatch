@@ -15,7 +15,7 @@
 - ✅ Swift 6.0 + iOS 18.0 / watchOS 11.0 deployment targets
 - ⚠️ **StoreKit 2 IAP not connected** — premium unlock is a fake flag (BLOCKER)
 - ⚠️ App icons missing (no Assets.xcassets)
-- ⚠️ Privacy policy not yet written or hosted
+- ✅ Privacy policy hosted: `https://imentos.github.io/MalaWatch/privacy-policy.html`
 - ⚠️ Screenshots not taken
 - ⚠️ Version needs bump to 1.0.0
 
@@ -291,10 +291,11 @@ MalaWatch collects no user data. Write a minimal policy and host it.
 - All data stored locally via UserDefaults
 - StoreKit purchase handled entirely by Apple
 
-### Hosting options
-- GitHub Pages: `https://rkuo.github.io/malawatch/privacy`
-- Notion public page
-- Any static URL you control
+### Hosting (GitHub Pages — live)
+- Privacy Policy: `https://imentos.github.io/MalaWatch/privacy-policy.html`
+- Terms of Use: `https://imentos.github.io/MalaWatch/terms.html`
+- Support: `https://imentos.github.io/MalaWatch/support.html`
+- Home: `https://imentos.github.io/MalaWatch/`
 
 ### Required privacy survey in App Store Connect
 - Data Not Collected
@@ -346,11 +347,11 @@ MalaWatch collects no user data. Write a minimal policy and host it.
 - [ ] Age Rating: 4+
 - [ ] Upload 1024×1024 app icon
 - [ ] Upload 5 iPhone 6.7" screenshots
-- [ ] Add privacy policy URL
+- [ ] Add privacy policy URL: `https://imentos.github.io/MalaWatch/privacy-policy.html`
 
 ### Privacy & Compliance
 
-- [ ] Write and host privacy policy
+- [x] Write and host privacy policy (`https://imentos.github.io/MalaWatch/privacy-policy.html`)
 - [ ] Complete App Store Connect privacy survey (Data Not Collected)
 - [ ] Export compliance: **No** (no custom encryption beyond standard iOS)
 - [ ] Content rights: confirm you own all assets
