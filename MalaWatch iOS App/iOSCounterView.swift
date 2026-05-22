@@ -25,6 +25,7 @@ struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
     @AppStorage("mala.chant.voiceMode") private var chantVoiceMode = ChantVoiceMode.follow.rawValue
     @AppStorage("mala.premium.unlocked") private var premiumUnlocked = false
+    @AppStorage("mala.hint.swipeToCount") private var swipeHintShown = false
     @State private var spokenSyllableIndex = 0
     @State private var chantPulse = false
     @State private var chantSpeaker = ChantSpeaker()
@@ -53,6 +54,17 @@ struct iOSCounterView: View {
                             onAdvance: countBead
                         )
                         .frame(maxHeight: .infinity)
+                        .overlay(alignment: .center) {
+                            if !swipeHintShown {
+                                SwipeDownHint()
+                            }
+                        }
+
+                        ProgressInfo(
+                            currentCount: max(store.counter.currentCount, 1),
+                            total: store.counter.beadGoal.rawValue,
+                            completedRounds: store.counter.completedRounds
+                        )
                     }
                     .padding(.horizontal, 22)
                     .padding(.top, proxy.safeAreaInsets.top + 92)
@@ -123,15 +135,16 @@ struct iOSCounterView: View {
     }
 
     private func countBead() {
-        let nextSyllableIndex = chantIndex(forCount: store.counter.currentCount + 1)
+        swipeHintShown = true
         let event = store.countBead()
+        let syllableIndex = chantIndex(forCount: max(store.counter.currentCount, 1))
 
         withAnimation(.spring(response: 0.24, dampingFraction: 0.56)) {
-            spokenSyllableIndex = nextSyllableIndex
+            spokenSyllableIndex = syllableIndex
             chantPulse.toggle()
         }
         if chantVoiceMode == ChantVoiceMode.follow.rawValue {
-            chantSpeaker.speak(chantPronunciations[nextSyllableIndex])
+            chantSpeaker.speak(chantPronunciations[syllableIndex])
         }
 
         switch event {
@@ -233,7 +246,8 @@ private struct MalaBeadWheel: View {
                             number: beadNumber,
                             colors: colors,
                             prominence: placement.prominence,
-                            isCenter: abs(relative) < 0.35
+                            isCenter: abs(relative) < 0.35,
+                            isStart: beadNumber == 1
                         )
                         .frame(width: placement.size, height: placement.size)
                         .position(x: placement.x, y: placement.y)
@@ -242,32 +256,11 @@ private struct MalaBeadWheel: View {
                         .zIndex(placement.zIndex)
                     }
 
-                    if let startOffset = startBeadOffset(displayCount: displayCount) {
-                        let startPlacement = beadPlacement(
-                            relative: CGFloat(startOffset) + normalizedDrag,
-                            center: center,
-                            spacing: spacing
-                        )
-
-                        GuruBead3D(colors: colors)
-                            .frame(width: 30, height: 30)
-                            .position(
-                                x: startPlacement.x - startPlacement.size * 0.24,
-                                y: startPlacement.y - startPlacement.size * 0.54
-                            )
-                            .opacity(startPlacement.opacity)
-                            .blur(radius: startPlacement.blur)
-                            .shadow(color: .black.opacity(0.20), radius: 8, y: 5)
-                            .zIndex(startPlacement.zIndex + 1)
-                    }
                 }
             }
             .frame(height: 438)
             .contentShape(Rectangle())
             .gesture(dragGesture)
-            .onTapGesture {
-                advance()
-            }
             .animation(.spring(response: 0.34, dampingFraction: 0.78), value: counter.currentCount)
             .animation(.interactiveSpring(response: 0.24, dampingFraction: 0.82), value: dragOffset)
             .accessibilityLabel("Mala bead wheel")
@@ -319,12 +312,6 @@ private struct MalaBeadWheel: View {
         let normalized = ((rawValue % goal) + goal) % goal
         return normalized == 0 ? goal : normalized
     }
-
-    private func startBeadOffset(displayCount: Int) -> Int? {
-        visibleOffsets.first { offset in
-            wrappedCount(displayCount - offset) == 1
-        }
-    }
 }
 
 private struct BeadPlacement {
@@ -338,46 +325,12 @@ private struct BeadPlacement {
 }
 
 
-private struct GuruBead3D: View {
-    let colors: ThemeColors
-
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 1.0, green: 0.38, blue: 0.28),
-                            Color(red: 0.70, green: 0.08, blue: 0.04),
-                            Color(red: 0.30, green: 0.02, blue: 0.01)
-                        ],
-                        center: .topLeading,
-                        startRadius: 2,
-                        endRadius: 30
-                    )
-                )
-
-            Circle()
-                .fill(.white.opacity(0.62))
-                .frame(width: 9, height: 6)
-                .offset(x: 8, y: 7)
-                .blur(radius: 0.6)
-
-            Circle()
-                .stroke(.white.opacity(0.26), lineWidth: 1)
-
-            Circle()
-                .stroke(.black.opacity(0.18), lineWidth: 1)
-                .padding(4)
-        }
-    }
-}
-
 private struct RollingBead3D: View {
     let number: Int
     let colors: ThemeColors
     let prominence: CGFloat
     let isCenter: Bool
+    var isStart: Bool = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -416,7 +369,14 @@ private struct RollingBead3D: View {
     }
 
     private var beadColors: [Color] {
-        isCenter ? colors.currentBead : colors.bead
+        if isStart {
+            return [
+                Color(red: 1.0, green: 0.38, blue: 0.28),
+                Color(red: 0.70, green: 0.08, blue: 0.04),
+                Color(red: 0.30, green: 0.02, blue: 0.01)
+            ]
+        }
+        return isCenter ? colors.currentBead : colors.bead
     }
 }
 
@@ -442,11 +402,6 @@ private struct MalaSettingsView: View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 16) {
-                    HStack(spacing: 12) {
-                        StatTile(title: "Rounds", value: "\(store.counter.completedRounds)")
-                        StatTile(title: "Progress", value: "\(Int(store.counter.progress * 100))%")
-                    }
-
                     CounterSettingsPanel(
                         store: store,
                         chantVoiceMode: $chantVoiceMode,
@@ -501,12 +456,6 @@ private struct CounterSettingsPanel: View {
                 }
             }
             .pickerStyle(.segmented)
-
-            TextField("Mantra, prayer, or affirmation", text: $store.counter.label)
-                .textInputAutocapitalization(.words)
-                .submitLabel(.done)
-                .padding(14)
-                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -721,23 +670,55 @@ private struct PremiumFeatureRow: View {
     }
 }
 
-private struct StatTile: View {
-    let title: String
-    let value: String
+private struct SwipeDownHint: View {
+    @State private var offset: CGFloat = 0
+    @State private var opacity: Double = 0
 
     var body: some View {
-        VStack(spacing: 6) {
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+        VStack(spacing: 3) {
+            Image(systemName: "chevron.down")
+                .font(.system(size: 24, weight: .semibold))
+            Image(systemName: "chevron.down")
+                .font(.system(size: 24, weight: .semibold))
+                .opacity(0.45)
+        }
+        .foregroundStyle(.black.opacity(0.36))
+        .offset(y: offset)
+        .opacity(opacity)
+        .allowsHitTesting(false)
+        .onAppear {
+            withAnimation(.easeIn(duration: 0.3)) { opacity = 1 }
+            withAnimation(.easeInOut(duration: 0.55).repeatForever(autoreverses: true)) {
+                offset = 14
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                withAnimation(.easeOut(duration: 0.5)) { opacity = 0 }
+            }
+        }
+    }
+}
 
-            Text(value)
-                .font(.title3.weight(.semibold))
+private struct ProgressInfo: View {
+    let currentCount: Int
+    let total: Int
+    let completedRounds: Int
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text("\(currentCount) / \(total)")
+                .font(.system(size: 15, weight: .semibold, design: .rounded))
                 .monospacedDigit()
+                .foregroundStyle(.black.opacity(0.64))
+
+            Circle()
+                .fill(.black.opacity(0.26))
+                .frame(width: 3, height: 3)
+
+            Text("\(completedRounds) rounds")
+                .font(.system(size: 15, weight: .medium, design: .rounded))
+                .foregroundStyle(.black.opacity(0.44))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
     }
 }
 

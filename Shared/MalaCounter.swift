@@ -27,19 +27,18 @@ struct MalaCounter: Codable, Equatable {
     }
 
     mutating func increment() -> CountEvent {
-        currentCount += 1
-
         if currentCount >= beadGoal.rawValue {
-            currentCount = 0
+            currentCount = 1
             completedRounds += 1
             return .completedRound
         }
 
+        currentCount += 1
         return .countedBead
     }
 
     mutating func adjust(to newValue: Int) {
-        currentCount = min(max(newValue, 0), beadGoal.rawValue - 1)
+        currentCount = min(max(newValue, 0), beadGoal.rawValue)
     }
 
     mutating func resetCurrentRound() {

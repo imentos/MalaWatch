@@ -13,7 +13,15 @@ struct WatchCounterView: View {
             themeBackground
 
             VStack(spacing: 4) {
-                WatchMalaBeads(counter: store.counter, colors: colors)
+                WatchMalaBeads(
+                    counter: store.counter,
+                    colors: colors,
+                    onAdvance: {
+                        let event = store.countBead()
+                        crownValue = Double(store.counter.currentCount)
+                        playHaptic(for: event)
+                    }
+                )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 HStack(spacing: 8) {
@@ -47,11 +55,11 @@ struct WatchCounterView: View {
 
                     Spacer()
 
-                    WatchIconButton(systemName: "paintpalette") {
+                    WatchIconButton(systemName: "gearshape") {
                         showingStylePicker = true
                         WKInterfaceDevice.current().play(.click)
                     }
-                    .accessibilityLabel("Skin")
+                    .accessibilityLabel("Settings")
                 }
                 .padding(.horizontal, 10)
                 .padding(.top, 4)
@@ -63,7 +71,7 @@ struct WatchCounterView: View {
         .digitalCrownRotation(
             $crownValue,
             from: 0,
-            through: Double(store.counter.beadGoal.rawValue - 1),
+            through: Double(store.counter.beadGoal.rawValue),
             by: 1,
             sensitivity: .medium,
             isContinuous: false,
@@ -72,17 +80,14 @@ struct WatchCounterView: View {
         .onChange(of: crownValue) { _, newValue in
             store.counter.adjust(to: Int(newValue.rounded()))
         }
-        .onTapGesture {
-            let event = store.countBead()
-            crownValue = Double(store.counter.currentCount)
-            playHaptic(for: event)
-        }
         .onLongPressGesture {
             showingStylePicker = true
             WKInterfaceDevice.current().play(.click)
         }
         .sheet(isPresented: $showingStylePicker) {
-            WatchStylePickerView(store: store)
+            WatchStylePickerView(store: store, onGoalChanged: {
+                crownValue = 0
+            })
         }
     }
 
@@ -129,6 +134,9 @@ private struct WatchIconButton: View {
 private struct WatchMalaBeads: View {
     let counter: MalaCounter
     let colors: ThemeColors
+    let onAdvance: () -> Void
+
+    @GestureState private var dragOffset: CGFloat = 0
 
     private let visibleOffsets = Array(-4...4)
 
@@ -137,7 +145,8 @@ private struct WatchMalaBeads: View {
             let size = proxy.size
             let center = CGPoint(x: size.width / 2, y: size.height * 0.48)
             let spacing = min(size.height * 0.118, 20)
-            let displayCount = max(counter.currentCount, 1)
+            let normalizedDrag = dragOffset / spacing
+            let displayCount = max(visualBaseCount(isDraggingDown: dragOffset > 0.5), 1)
 
             ZStack {
                 Capsule()
@@ -147,7 +156,7 @@ private struct WatchMalaBeads: View {
                     .blur(radius: 12)
 
                 ForEach(visibleOffsets, id: \.self) { offset in
-                    let relative = CGFloat(offset)
+                    let relative = CGFloat(offset) + normalizedDrag
                     let placement = beadPlacement(relative: relative, center: center, spacing: spacing)
                     let number = wrappedCount(displayCount - offset)
 
@@ -155,7 +164,8 @@ private struct WatchMalaBeads: View {
                         number: number,
                         colors: colors,
                         prominence: placement.prominence,
-                        isCenter: offset == 0
+                        isCenter: abs(relative) < 0.35,
+                        isStart: number == 1
                     )
                     .frame(width: placement.size, height: placement.size)
                     .position(x: placement.x, y: placement.y)
@@ -163,18 +173,29 @@ private struct WatchMalaBeads: View {
                     .blur(radius: placement.blur)
                     .zIndex(placement.zIndex)
                 }
-
-                if let startOffset = startBeadOffset(displayCount: displayCount) {
-                    let placement = beadPlacement(relative: CGFloat(startOffset), center: center, spacing: spacing)
-                    WatchGuruBead()
-                        .frame(width: 18, height: 18)
-                        .position(x: placement.x - placement.size * 0.20, y: placement.y - placement.size * 0.54)
-                        .opacity(placement.opacity)
-                        .zIndex(placement.zIndex + 1)
-                }
             }
+            .contentShape(Rectangle())
+            .gesture(dragGesture)
+            .animation(.spring(response: 0.34, dampingFraction: 0.78), value: counter.currentCount)
+            .animation(.interactiveSpring(response: 0.24, dampingFraction: 0.82), value: dragOffset)
         }
         .accessibilityLabel("Mala beads")
+    }
+
+    private var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 6)
+            .updating($dragOffset) { value, state, _ in
+                state = min(max(value.translation.height, -44), 44)
+            }
+            .onEnded { value in
+                if value.translation.height > 14 || value.predictedEndTranslation.height > 28 {
+                    onAdvance()
+                }
+            }
+    }
+
+    private func visualBaseCount(isDraggingDown: Bool) -> Int {
+        isDraggingDown ? max(counter.currentCount, 1) : max(counter.currentCount, 1)
     }
 
     private func beadPlacement(relative: CGFloat, center: CGPoint, spacing: CGFloat) -> WatchBeadPlacement {
@@ -197,12 +218,6 @@ private struct WatchMalaBeads: View {
         let normalized = ((rawValue % goal) + goal) % goal
         return normalized == 0 ? goal : normalized
     }
-
-    private func startBeadOffset(displayCount: Int) -> Int? {
-        visibleOffsets.first { offset in
-            wrappedCount(displayCount - offset) == 1
-        }
-    }
 }
 
 private struct WatchBeadPlacement {
@@ -220,13 +235,14 @@ private struct WatchBead3D: View {
     let colors: ThemeColors
     let prominence: CGFloat
     let isCenter: Bool
+    var isStart: Bool = false
 
     var body: some View {
         ZStack(alignment: .topLeading) {
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: isCenter ? colors.currentBead : colors.bead,
+                        colors: beadColors,
                         center: .topLeading,
                         startRadius: 2,
                         endRadius: 38
@@ -256,72 +272,80 @@ private struct WatchBead3D: View {
         .shadow(color: .black.opacity(0.22 + 0.10 * prominence), radius: 5 + 7 * prominence, x: 0, y: 3 + 5 * prominence)
         .scaleEffect(isCenter ? 1.08 : 1)
     }
-}
 
-private struct WatchGuruBead: View {
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 1.0, green: 0.38, blue: 0.28),
-                            Color(red: 0.70, green: 0.08, blue: 0.04),
-                            Color(red: 0.30, green: 0.02, blue: 0.01)
-                        ],
-                        center: .topLeading,
-                        startRadius: 1,
-                        endRadius: 18
-                    )
-                )
-
-            Circle()
-                .fill(.white.opacity(0.60))
-                .frame(width: 5, height: 4)
-                .offset(x: 5, y: 5)
-                .blur(radius: 0.4)
-
-            Circle().stroke(.white.opacity(0.22), lineWidth: 0.7)
+    private var beadColors: [Color] {
+        if isStart {
+            return [
+                Color(red: 1.0, green: 0.38, blue: 0.28),
+                Color(red: 0.70, green: 0.08, blue: 0.04),
+                Color(red: 0.30, green: 0.02, blue: 0.01)
+            ]
         }
+        return isCenter ? colors.currentBead : colors.bead
     }
 }
 
 private struct WatchStylePickerView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var store: MalaStore
+    var onGoalChanged: () -> Void
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(MalaTheme.allCases) { theme in
-                    Button {
-                        store.counter.theme = theme
-                        WKInterfaceDevice.current().play(.click)
-                        dismiss()
-                    } label: {
-                        HStack(spacing: 8) {
-                            WatchThemeSwatch(theme: theme)
-
-                            VStack(alignment: .leading, spacing: 1) {
-                                Text(theme.title)
+                Section("Goal") {
+                    ForEach(BeadGoal.allCases) { goal in
+                        Button {
+                            store.counter.beadGoal = goal
+                            store.counter.resetCurrentRound()
+                            onGoalChanged()
+                            WKInterfaceDevice.current().play(.click)
+                            dismiss()
+                        } label: {
+                            HStack {
+                                Text(goal.title)
                                     .font(.caption.weight(.semibold))
-                                Text(theme.materialNote)
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(1)
+                                Spacer()
+                                if store.counter.beadGoal == goal {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                }
                             }
+                        }
+                    }
+                }
 
-                            Spacer()
+                Section("Skin") {
+                    ForEach(MalaTheme.allCases) { theme in
+                        Button {
+                            store.counter.theme = theme
+                            WKInterfaceDevice.current().play(.click)
+                            dismiss()
+                        } label: {
+                            HStack(spacing: 8) {
+                                WatchThemeSwatch(theme: theme)
 
-                            if store.counter.theme == theme {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(theme.title)
+                                        .font(.caption.weight(.semibold))
+                                    Text(theme.materialNote)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                        .lineLimit(1)
+                                }
+
+                                Spacer()
+
+                                if store.counter.theme == theme {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                }
                             }
                         }
                     }
                 }
             }
-            .navigationTitle("Skin")
+            .navigationTitle("Settings")
         }
     }
 }
