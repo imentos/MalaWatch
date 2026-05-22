@@ -24,7 +24,6 @@ private enum ChantVoiceMode: String, CaseIterable, Identifiable {
 struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
     @AppStorage("mala.chant.voiceMode") private var chantVoiceMode = ChantVoiceMode.follow.rawValue
-    @AppStorage("mala.premium.unlocked") private var premiumUnlocked = false
     @AppStorage("mala.hint.swipeToCount") private var swipeHintShown = false
     @State private var spokenSyllableIndex = 0
     @State private var chantPulse = false
@@ -100,7 +99,6 @@ struct iOSCounterView: View {
             MalaSettingsView(
                 store: store,
                 chantVoiceMode: $chantVoiceMode,
-                premiumUnlocked: $premiumUnlocked,
                 colors: colors
             )
         }
@@ -393,10 +391,8 @@ private struct MalaSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var store: MalaStore
     @Binding var chantVoiceMode: String
-    @Binding var premiumUnlocked: Bool
     let colors: ThemeColors
 
-    @State private var showingPremium = false
 
     var body: some View {
         NavigationStack {
@@ -404,9 +400,7 @@ private struct MalaSettingsView: View {
                 VStack(spacing: 16) {
                     CounterSettingsPanel(
                         store: store,
-                        chantVoiceMode: $chantVoiceMode,
-                        premiumUnlocked: $premiumUnlocked,
-                        showingPremium: $showingPremium
+                        chantVoiceMode: $chantVoiceMode
                     )
                 }
                 .padding(18)
@@ -421,9 +415,6 @@ private struct MalaSettingsView: View {
             )
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showingPremium) {
-                PremiumUpgradeView(premiumUnlocked: $premiumUnlocked)
-            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {
@@ -438,8 +429,6 @@ private struct MalaSettingsView: View {
 private struct CounterSettingsPanel: View {
     @Bindable var store: MalaStore
     @Binding var chantVoiceMode: String
-    @Binding var premiumUnlocked: Bool
-    @Binding var showingPremium: Bool
 
     var body: some View {
         VStack(spacing: 18) {
@@ -462,11 +451,6 @@ private struct CounterSettingsPanel: View {
                     Text("Bead Style")
                         .font(.headline)
                     Spacer()
-                    if premiumUnlocked {
-                        Text("Premium")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.green)
-                    }
                 }
 
                 ForEach(MalaTheme.allCases) { theme in
@@ -475,30 +459,18 @@ private struct CounterSettingsPanel: View {
                     } label: {
                         ThemeChoiceRow(
                             theme: theme,
-                            isSelected: store.counter.theme == theme,
-                            isLocked: theme.isPremium && !premiumUnlocked
+                            isSelected: store.counter.theme == theme
                         )
                     }
                     .buttonStyle(.plain)
                 }
             }
-
-            Button {
-                showingPremium = true
-            } label: {
-                WatchPremiumCard(isUnlocked: premiumUnlocked)
-            }
-            .buttonStyle(.plain)
         }
         .padding(16)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
     }
 
     private func selectTheme(_ theme: MalaTheme) {
-        if theme.isPremium && !premiumUnlocked {
-            showingPremium = true
-            return
-        }
         store.counter.theme = theme
         Haptics.play(.light)
     }
@@ -507,7 +479,6 @@ private struct CounterSettingsPanel: View {
 private struct ThemeChoiceRow: View {
     let theme: MalaTheme
     let isSelected: Bool
-    let isLocked: Bool
 
     var body: some View {
         HStack(spacing: 12) {
@@ -526,15 +497,14 @@ private struct ThemeChoiceRow: View {
 
             Image(systemName: trailingIcon)
                 .font(.system(size: 17, weight: .semibold))
-                .foregroundStyle(isLocked ? .secondary : .primary)
+                .foregroundStyle(.primary)
         }
         .padding(12)
         .background(rowBackground, in: RoundedRectangle(cornerRadius: 8))
     }
 
     private var trailingIcon: String {
-        if isLocked { return "lock.fill" }
-        return isSelected ? "checkmark.circle.fill" : "circle"
+        isSelected ? "checkmark.circle.fill" : "circle"
     }
 
     private var rowBackground: some ShapeStyle {
@@ -559,114 +529,6 @@ private struct ThemeSwatch: View {
             .frame(width: 34, height: 34)
             .overlay(Circle().stroke(.white.opacity(0.36), lineWidth: 1))
             .shadow(color: .black.opacity(0.12), radius: 5, y: 3)
-    }
-}
-
-private struct WatchPremiumCard: View {
-    let isUnlocked: Bool
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "applewatch")
-                .font(.system(size: 27, weight: .medium))
-                .frame(width: 42, height: 42)
-                .background(.thinMaterial, in: Circle())
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text("Apple Watch Companion")
-                    .font(.body.weight(.semibold))
-                Text(isUnlocked ? "Included with Premium" : "Premium feature")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Image(systemName: isUnlocked ? "checkmark.circle.fill" : "lock.fill")
-                .font(.system(size: 18, weight: .semibold))
-        }
-        .padding(13)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 8))
-    }
-}
-
-private struct PremiumUpgradeView: View {
-    @Environment(\.dismiss) private var dismiss
-    @Binding var premiumUnlocked: Bool
-
-    var body: some View {
-        NavigationStack {
-            VStack(alignment: .leading, spacing: 22) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("MalaWatch Premium")
-                        .font(.largeTitle.weight(.bold))
-                    Text("Unlock richer bead materials and the Apple Watch companion experience.")
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                }
-
-                VStack(spacing: 12) {
-                    PremiumFeatureRow(icon: "circle.hexagongrid.fill", title: "Premium wood grains", detail: "Rosewood, walnut, agarwood, and future seasonal sets.")
-                    PremiumFeatureRow(icon: "applewatch", title: "Apple Watch companion", detail: "Count privately from your wrist with haptics and glanceable progress.")
-                    PremiumFeatureRow(icon: "sparkles", title: "Future ritual packs", detail: "More bead styles, sounds, and guided chanting options.")
-                }
-
-                Spacer()
-
-                Button {
-                    premiumUnlocked = true
-                    dismiss()
-                    Haptics.play(.medium)
-                } label: {
-                    Text(premiumUnlocked ? "Premium Unlocked" : "Unlock Premium")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 15)
-                        .background(Color.black, in: RoundedRectangle(cornerRadius: 8))
-                        .foregroundStyle(.white)
-                }
-                .disabled(premiumUnlocked)
-
-                Text("StoreKit purchase will connect here before App Store release.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            .padding(22)
-            .navigationTitle("Upgrade")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
-                }
-            }
-        }
-    }
-}
-
-private struct PremiumFeatureRow: View {
-    let icon: String
-    let title: String
-    let detail: String
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 20, weight: .semibold))
-                .frame(width: 34, height: 34)
-                .background(.thinMaterial, in: Circle())
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .font(.body.weight(.semibold))
-                Text(detail)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(13)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
     }
 }
 

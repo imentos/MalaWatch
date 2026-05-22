@@ -93,18 +93,14 @@ enum MalaTheme: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    var isPremium: Bool {
-        self != .sandalwood
-    }
-
     var materialNote: String {
         switch self {
         case .sandalwood:
             return "Included"
         case .rosewood, .walnut, .agarwood:
-            return "Premium wood grain"
+            return "Wood grain"
         case .jade, .obsidian, .graphite:
-            return "Premium material"
+            return "Material style"
         }
     }
 }

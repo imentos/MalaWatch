@@ -1,11 +1,11 @@
 # MalaWatch
 
-iPhone-first mala / prayer beads counter with a future Apple Watch companion.
+Mala / prayer beads counter for iPhone and Apple Watch.
 
 ## Product Shape
 
 MalaWatch is a quiet daily ritual app for counting mala beads, mantras, prayers,
-affirmations, or breath cycles. The iPhone app is the primary MVP because it is faster to build, easier to share, and simpler to test across Chinese, US, and Indian audiences. The Apple Watch app remains a natural companion once the core ritual feels right.
+affirmations, or breath cycles. The iPhone app is the primary experience, with an Apple Watch companion for wrist-based counting using tap and Digital Crown input.
 
 ## MVP
 
@@ -13,7 +13,7 @@ affirmations, or breath cycles. The iPhone app is the primary MVP because it is 
 - Support 27, 54, and 108 bead goals.
 - Give gentle haptic feedback on each bead and stronger feedback at completion.
 - Show today's current count, progress, and completed rounds.
-- Let users customize the label and visual theme.
+- Let users choose bead goals, voice mode, and visual theme.
 - Keep all data local in the first version.
 
 ## Positioning
@@ -41,7 +41,7 @@ This folder currently contains the product source scaffold:
 
 - `Shared/`: shared app model and defaults.
 - `MalaWatch iOS App/`: primary iPhone SwiftUI experience.
-- `MalaWatch Watch App/`: Apple Watch companion experiment.
+- `MalaWatch Watch App/`: Apple Watch companion experience.
 - `PRODUCT.md`: product decisions, market notes, and next steps.
 
 `project.yml`: XcodeGen config for generating an Xcode project.

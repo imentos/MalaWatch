@@ -1,477 +1,250 @@
-# MalaWatch — App Store Submission Plan
+# MalaWatch - App Store Submission Plan
 
 ## Current Status
 
-- ✅ Core counter UI complete (3D bead wheel, tap + swipe counting)
-- ✅ Om Mani Padme Hum chant guide with voice synthesis (Follow / Silent modes)
-- ✅ Haptic feedback per bead + completion pulse
-- ✅ Bead goals: 27 / 54 / 108
-- ✅ Rounds counter + progress tracking
-- ✅ Custom label (mantra, prayer, affirmation)
-- ✅ 7 bead themes (Sandalwood free, 6 Premium)
-- ✅ Apple Watch companion (tap + Digital Crown counting)
-- ✅ Offline, no account required
-- ✅ Bundle IDs updated: `rkuo.MalaWatch` / `rkuo.MalaWatch.watchkitapp`
-- ✅ Swift 6.0 + iOS 18.0 / watchOS 11.0 deployment targets
-- ⚠️ **StoreKit 2 IAP not connected** — premium unlock is a fake flag (BLOCKER)
-- ⚠️ App icons missing (no Assets.xcassets)
-- ✅ Privacy policy hosted: `https://imentos.github.io/MalaWatch/privacy-policy.html`
-- ⚠️ Screenshots not taken
-- ⚠️ Version needs bump to 1.0.0
+- Core counter UI complete: 3D bead wheel, swipe counting, haptics.
+- Om Mani Padme Hum chant guide complete with Follow / Silent voice modes.
+- Bead goals complete: 27 / 54 / 108.
+- Round counter and progress tracking complete.
+- Seven bead themes included for all users.
+- Apple Watch app included for all users: tap and Digital Crown counting.
+- App is offline and requires no account.
+- Bundle IDs configured: `rkuo.MalaWatch` / `rkuo.MalaWatch.watchkitapp`.
+- Swift 6.0, iOS 18.0, watchOS 11.0.
+- App icon is present for iOS and watchOS.
+- iPhone portrait-only orientation is configured.
+- Privacy policy, terms, support page are hosted on GitHub Pages.
+- No In-App Purchases in the current submission.
+- No paywall, unlock button, restore purchases button, StoreKit flow, or paid Apple Watch claim in the app.
 
----
+## App Store Listing Metadata
 
-## 🏪 App Store Listing Metadata
+### App Name
 
-### App Name (30 chars max)
-```
+```text
 MalaWatch: Prayer Bead Counter
 ```
-*(30 chars exactly — includes primary keywords Apple indexes)*
 
-### Subtitle (30 chars max)
-```
+### Subtitle
+
+```text
 Mala, Japa & Mantra Tracker
 ```
-*(27 chars — covers japa, mantra, tracker search terms)*
 
-### Keywords Field (100 chars max, no spaces after commas)
-```
+### Keywords
+
+```text
 108,Buddhist,mindfulness,chant,meditation,rosary,affirmation,om,spiritual,zen,Hindu,daily,breath
 ```
-*(98 chars — avoids repeating any word already in name or subtitle)*
-
-**Why each keyword:**
-- `108` — sacred bead count, very high-intent search
-- `Buddhist` — primary religious audience
-- `mindfulness` — secular/wellness crossover, high volume
-- `chant` — unique feature (voice chant guide), low competition
-- `meditation` — broad discovery traffic
-- `rosary` — Catholic users searching for prayer counter (cross-niche)
-- `affirmation` — secular daily habit audience
-- `om` — directly tied to Om Mani Padme Hum feature
-- `spiritual` — broader spiritual seeker traffic
-- `zen` — Japanese/secular meditation overlap
-- `Hindu` — japa mala is core Hindu practice
-- `daily` — habit/routine framing for algorithm
-- `breath` — breathwork/pranayama overlap
-
-**Terms NOT in keyword field (Apple already indexes from name/subtitle):**
-- `mala`, `prayer`, `bead`, `counter`, `japa`, `mantra`, `tracker`, `watch`
-
----
 
 ### Simplified Chinese Localization
 
-**Subtitle (ZH-CN):**
-```
+Subtitle:
+
+```text
 佛珠念珠计数·禅修冥想助手
 ```
 
-**Keywords (ZH-CN, 100 chars):**
-```
+Keywords:
+
+```text
 佛珠,念珠,念佛,持咒,冥想,禅修,数珠,念经,静心,修行,108,计数,佛教,日课
 ```
 
----
+## App Description
 
-### App Description (English)
-
-```
+```text
 The mala counter that actually feels like practice.
 
-MalaWatch gives you a tactile 3D bead wheel, Om Mani Padme Hum chant guide with voice, and a click of haptic feedback on every single bead — on iPhone and Apple Watch.
+MalaWatch gives you a tactile 3D bead wheel, Om Mani Padme Hum chant guidance, voice support, and haptic feedback on every bead - on iPhone and Apple Watch.
 
 FEEL EVERY BEAD
-A weighted 3D bead wheel scrolls as you count. Tap once or swipe up to advance. Every bead returns a soft haptic click. Reaching your goal — 27, 54, or 108 — sends a full completion pulse. It is the closest an iPhone gets to holding a real mala in your hand.
+A weighted 3D bead wheel moves as you count. Swipe down to advance one bead. Every bead returns a soft haptic click. Reaching your goal - 27, 54, or 108 - sends a completion pulse and starts the next round.
 
 HEAR THE CHANT
-The Om Mani Padme Hum guide lights up one syllable at a time as you count. In Follow mode, the app speaks each syllable aloud — Om… Ma… Ni… Pad… Me… Hum — so your eyes and breath can stay with your practice instead of the screen. In Silent mode, the syllable bar guides you visually.
+The Om Mani Padme Hum guide lights up one syllable at a time as you count. In Follow mode, the app speaks each syllable aloud - Om, Ma, Ni, Pad, Me, Hum - so your eyes and breath can stay with your practice instead of the screen. In Silent mode, the syllable guide stays visual only.
 
 TRACK YOUR ROUNDS
-Your round count and bead progress are always visible. Sessions save automatically after every bead — close the app mid-practice, come back, and pick up exactly where you left off.
+Your bead count and completed rounds are always visible. Progress saves automatically, so you can leave and return to your practice without losing your place.
 
-COUNT FROM YOUR WRIST (Premium)
-The Apple Watch companion lets you count with a tap or the Digital Crown — a click haptic on every bead, a success pattern when the round completes. Quiet, discrete, and always on your wrist.
+COUNT FROM YOUR WRIST
+The Apple Watch app lets you count privately from your wrist with tap or Digital Crown input, haptic feedback on each bead, and a completion haptic at the end of a round.
 
-CHOOSE YOUR BEAD MATERIAL (Premium)
-Sandalwood is free. Unlock Premium for six more materials — Rosewood, Walnut, Agarwood, Jade, Obsidian, and Graphite. Each has its own 3D rendering, palette, and feel.
+CHOOSE YOUR BEAD STYLE
+Choose from seven included bead styles: Basic Wood, Rosewood, Walnut, Agarwood, Jade, Obsidian, and Graphite. Each style has its own color palette and 3D bead feel.
 
 PRIVATE AND OFFLINE
-No account. No login. No internet connection. Your practice never leaves your device.
+No account. No login. No internet connection required. Your practice data stays on your device.
 
 WORKS FOR ANY TRADITION
-Buddhist japa, Catholic rosary, Hindu mantra, breathwork rounds, affirmations, or any counting practice — MalaWatch holds the count so your mind doesn't have to.
-
-—
-
-MalaWatch Premium — one-time purchase, yours forever
-• Apple Watch companion app
-• 6 premium bead materials: Rosewood, Walnut, Agarwood, Jade, Obsidian, Graphite
-• Future seasonal bead packs
+Buddhist japa, Catholic rosary, Hindu mantra, breathwork rounds, affirmations, or any counting practice - MalaWatch holds the count so your mind does not have to.
 
 Terms of Use: https://imentos.github.io/MalaWatch/terms.html
 Privacy Policy: https://imentos.github.io/MalaWatch/privacy-policy.html
 ```
 
----
+### Promotional Text
 
-### Promotional Text (170 chars — editable without a new version)
-```
-Count mantras on a beautiful 3D bead wheel with haptic feedback. Om Mani Padme Hum chant guide included. iPhone + Apple Watch.
+```text
+Count mantras on a tactile 3D bead wheel with haptic feedback, Om Mani Padme Hum guidance, and Apple Watch support.
 ```
 
-### What's New (first release)
-```
+### What's New
+
+```text
 Initial release of MalaWatch.
 ```
 
 ### Category
-- **Primary:** Health & Fitness
-- **Secondary:** Lifestyle
+
+- Primary: Health & Fitness
+- Secondary: Lifestyle
 
 ### Age Rating
-- **4+** (no objectionable content)
+
+- 4+
 
 ### Pricing
-- **App:** Free
-- **In-App Purchase:** MalaWatch Premium — $3.99 (non-consumable, one-time)
 
----
+- App: Free
+- In-App Purchases: None in the current submission
 
-## 💰 Monetization
+## Review Notes
 
-### IAP Product
+Use this in App Review Information if needed:
 
-| Field | Value |
-|-------|-------|
-| Product ID | `rkuo.MalaWatch.premium` |
-| Type | Non-Consumable (one-time purchase) |
-| Price | $3.99 (Tier 4) |
-| Reference Name | MalaWatch Premium |
-| Display Name | MalaWatch Premium |
-| Description | Unlocks 6 premium bead materials and the Apple Watch companion app. |
+```text
+MalaWatch does not require an account or login.
 
-**Why one-time, not subscription:**
-Meditation/spiritual apps have much lower subscription conversion rates. Users feel a subscription for a ritual tool is extractive. A $3.99 one-time purchase has high perceived value and low friction.
+This build does not offer In-App Purchases. All current features, including Apple Watch support and bead styles, are included without purchase.
 
-### What Premium Unlocks
-- 6 premium bead themes (Rosewood, Walnut, Agarwood, Jade, Obsidian, Graphite)
-- Apple Watch companion app
-- Future seasonal bead packs
+The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the Om Mani Padme Hum syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 
-### StoreKit 2 Implementation Needed
-The current code has a placeholder:
-```swift
-// In PremiumUpgradeView:
-Button { premiumUnlocked = true; dismiss() } // ← fake unlock, must replace
+MalaWatch does not collect user data, does not use third-party SDKs, and does not require network access for core functionality. Voice guidance uses Apple's on-device AVSpeechSynthesizer.
 ```
 
-Replace with:
-```swift
-import StoreKit
-
-// 1. Load product
-let products = try await Product.products(for: ["rkuo.MalaWatch.premium"])
-guard let product = products.first else { return }
-
-// 2. Purchase
-let result = try await product.purchase()
-switch result {
-case .success(let verification):
-    let transaction = try verification.payloadValue
-    premiumUnlocked = true
-    await transaction.finish()
-case .userCancelled, .pending:
-    break
-}
-
-// 3. Restore on launch
-for await result in Transaction.currentEntitlements {
-    if let transaction = try? result.payloadValue,
-       transaction.productID == "rkuo.MalaWatch.premium" {
-        premiumUnlocked = true
-    }
-}
-```
-
----
-
-## 📱 App Icon Requirements
-
-MalaWatch has no Assets.xcassets. You need to create the app icon before submission.
-
-**Required sizes (App Store + device):**
-
-| Size | Usage |
-|------|-------|
-| 1024×1024 | App Store (required) |
-| 180×180 | iPhone @3x |
-| 120×120 | iPhone @2x |
-| 87×87 | Settings @3x |
-| 58×58 | Settings @2x |
-| 40×40 | Spotlight @2x |
-| 60×60 | Spotlight @3x |
-
-**watchOS icon sizes also required** (for Watch app):
-
-| Size | Usage |
-|------|-------|
-| 108×108 | Watch face (large) |
-| 100×100 | App launcher |
-| 58×58 | Notification center |
-| 55×55 | Watch face (small) |
-
-**Icon design direction:**
-- Dark warm background (deep sandalwood brown ~#1A0A06)
-- A single luminous 3D bead — the current center bead from the app
-- Warm golden amber glow to match the sandalwood theme
-- Minimal, calm — no text
-
----
-
-## 📸 Screenshots Plan
+## Screenshot Plan
 
 ### Required Device Sizes
-| Display | Resolution | Required? |
-|---------|------------|-----------|
-| iPhone 6.7" (iPhone 15 Pro Max) | 1290×2796 | ✅ Required |
-| iPhone 6.5" (iPhone 14 Plus) | 1242×2688 | Optional |
 
-### 5 Screenshot Sequence
+| Display | Resolution | Required |
+|---|---:|---|
+| iPhone 6.7 inch | 1290 x 2796 | Yes |
+| iPhone 6.5 inch | 1242 x 2688 | Optional |
 
-**Screenshot 1 — Hero: The Bead Wheel**
-- Screen: Main counter at ~37/108, Sandalwood theme
-- Shows: Full 3D bead wheel with the center bead highlighted, Om chant guide at top showing current syllable, round count visible
-- Caption idea: "COUNT MANTRAS ON BEAUTIFUL 3D BEADS"
-- Why first: Visually distinctive, instantly shows what's different
+### Screenshot Sequence
 
-**Screenshot 2 — Chant Guide in action**
-- Screen: Main counter, Follow mode active, "Ni" syllable highlighted in chant bar
-- Shows: Chant syllable bar with "Ni" lit up (mid-sequence), bead wheel below
-- Caption idea: "HEAR EVERY CHANT SYLLABLE ALOUD"
-- Why: Unique feature, no competitor does TTS chant guide
+1. Hero bead wheel
+   - Main counter around 37/108.
+   - Shows 3D bead wheel, current syllable, round/progress line.
+   - Caption: `COUNT MANTRAS ON BEAUTIFUL 3D BEADS`
 
-**Screenshot 3 — Theme Selection (Premium)**
-- Screen: Settings sheet open, Bead Style section showing all 7 themes with swatches
-- Shows: Premium themes with lock icon, Jade or Obsidian swatch looking beautiful
-- Caption idea: "CHOOSE YOUR SACRED BEAD MATERIAL"
-- Why: Drives premium upsell, shows visual variety
+2. Chant guide
+   - Main counter with Follow mode active and a mid-sequence syllable highlighted.
+   - Caption: `FOLLOW OM MANI PADME HUM`
 
-**Screenshot 4 — Round Complete / Progress**
-- Screen: Main counter, completed round state (or settings with Rounds: 3, Progress: 100%)
-- Shows: Round counter + completed rounds tiles from settings
-- Caption idea: "TRACK YOUR DAILY ROUNDS & GOALS"
-- Why: Habit/ritual framing, important for retention messaging
+3. Bead styles
+   - Settings sheet open, showing all seven included bead styles.
+   - Caption: `CHOOSE YOUR BEAD STYLE`
 
-**Screenshot 5 — Apple Watch (Premium)**
-- Screen: Watch simulator showing WatchCounterView with Jade or Obsidian theme, beads visible
-- Shows: Beautiful Watch UI with bead count and Digital Crown hint
-- Caption idea: "COUNT QUIETLY FROM YOUR WRIST"
-- Why: Premium differentiator, Apple Watch = aspirational
+4. Goals and progress
+   - Settings or main view showing 27/54/108 and round progress.
+   - Caption: `TRACK YOUR DAILY ROUNDS`
 
-### Simulator Status Bar Setup
-Before taking screenshots, clean up the status bar:
-```bash
-xcrun simctl status_bar "iPhone 15 Pro Max" override \
-  --time "9:41" \
-  --batteryState charged \
-  --batteryLevel 100 \
-  --wifiBars 3 \
-  --cellularMode active \
-  --cellularBars 4
-```
+5. Apple Watch
+   - Watch app showing bead count and Digital Crown/tap counting experience.
+   - Caption: `COUNT QUIETLY FROM YOUR WRIST`
 
----
+## Privacy Policy
 
-## 🔒 Privacy Policy
+MalaWatch collects no user data.
 
-MalaWatch collects no user data. Write a minimal policy and host it.
+Required App Store privacy answers:
 
-### Required content
-- App name, developer name, contact email
-- Data not collected (none)
-- No third-party SDKs
-- AVSpeechSynthesizer (on-device TTS, no data sent)
-- All data stored locally via UserDefaults
-- StoreKit purchase handled entirely by Apple
+- Data Collection: Data Not Collected
+- Tracking: No
+- Third-party analytics: No
+- Account creation: No
+- Network requirement: No for core functionality
 
-### Hosting (GitHub Pages — live)
+Hosted pages:
+
 - Privacy Policy: `https://imentos.github.io/MalaWatch/privacy-policy.html`
 - Terms of Use: `https://imentos.github.io/MalaWatch/terms.html`
 - Support: `https://imentos.github.io/MalaWatch/support.html`
 - Home: `https://imentos.github.io/MalaWatch/`
 
-### Required privacy survey in App Store Connect
-- Data Not Collected
-- No tracking
-- No third-party analytics
+## Submission Checklist
 
----
+### Technical
 
-## ✅ Full Submission Checklist
+- [x] Remove all IAP, unlock, restore, and paid Apple Watch UI from the app.
+- [x] Include Apple Watch support without purchase.
+- [x] Include all bead styles without purchase.
+- [x] Add app icon assets.
+- [x] Configure portrait-only iPhone orientation.
+- [x] Set bundle IDs.
+- [x] Build iOS target.
+- [x] Build watchOS target.
+- [x] Archive release build.
+- [ ] Test on physical iPhone.
+- [ ] Test on physical Apple Watch if available.
+- [ ] Capture physical-device screen recording for App Review.
 
-### Technical (do first)
+### App Store Connect
 
-- [ ] Connect StoreKit 2 IAP (`rkuo.MalaWatch.premium`)
-- [ ] Add restore purchases button to PremiumUpgradeView
-- [ ] Check entitlements on launch (Transaction.currentEntitlements)
-- [ ] Create app icon (1024×1024 + all device sizes)
-- [ ] Add Assets.xcassets to iOS and Watch targets in project.yml
-- [ ] Bump MARKETING_VERSION to `1.0.0` in project.yml
-- [ ] Run `xcodegen generate` to regenerate Xcode project
-- [ ] Build and test on real iPhone (haptics, voice, themes)
-- [ ] Test StoreKit sandbox purchase and restore
-- [ ] Test on real Apple Watch (Digital Crown, haptics)
-- [ ] Wrap debug prints in `#if DEBUG`
+- [ ] Remove any In-App Purchase products from this app version.
+- [ ] Confirm pricing is Free.
+- [ ] Confirm metadata does not mention unlocks, paid Apple Watch, or paid themes.
+- [ ] Add App Review Notes saying this build has no IAP and all current features are included.
+- [ ] Upload iPhone screenshots showing actual app use.
+- [ ] Add privacy policy URL.
+- [ ] Add support URL.
+- [ ] Add terms URL if desired.
+- [ ] Complete privacy survey as Data Not Collected.
+- [ ] Submit for review.
 
-### App Store Connect Setup
-
-- [ ] Log into [appstoreconnect.apple.com](https://appstoreconnect.apple.com)
-- [ ] Create new App record:
-  - Platform: iOS
-  - Name: **MalaWatch: Prayer Bead Counter**
-  - Primary Language: English (U.S.)
-  - Bundle ID: `rkuo.MalaWatch`
-  - SKU: `MALAWATCH001`
-- [ ] Register `rkuo.MalaWatch` App ID in Developer portal (Certificates, IDs & Profiles)
-- [ ] Register `rkuo.MalaWatch.watchkitapp` App ID for Watch target
-- [ ] Create IAP product: `rkuo.MalaWatch.premium` (Non-Consumable, $3.99)
-- [ ] Set pricing: Free
-- [ ] Set availability: All countries
-
-### App Store Listing
-
-- [ ] App Name: `MalaWatch: Prayer Bead Counter`
-- [ ] Subtitle: `Mala, Japa & Mantra Tracker`
-- [ ] Keywords (English): `108,Buddhist,mindfulness,chant,meditation,rosary,affirmation,om,spiritual,zen,Hindu,daily,breath`
-- [ ] Add Simplified Chinese localization with Chinese subtitle + keywords
-- [ ] Paste full description (see above)
-- [ ] Set Promotional Text (170 chars)
-- [ ] Category: Health & Fitness (primary), Lifestyle (secondary)
-- [ ] Age Rating: 4+
-- [ ] Upload 1024×1024 app icon
-- [ ] Upload 5 iPhone 6.7" screenshots
-- [ ] Add privacy policy URL: `https://imentos.github.io/MalaWatch/privacy-policy.html`
-- [ ] Add support URL: `https://imentos.github.io/MalaWatch/support.html`
-- [ ] Add End User License Agreement (EULA) URL: `https://imentos.github.io/MalaWatch/terms.html`
-  *(App Store Connect → App Information → End User License Agreement — links your ToU to the IAP purchase flow)*
-
-### Privacy & Compliance
-
-- [x] Write and host privacy policy (`https://imentos.github.io/MalaWatch/privacy-policy.html`)
-- [x] Write and host Terms of Use / EULA (`https://imentos.github.io/MalaWatch/terms.html`)
-- [x] Write and host support page (`https://imentos.github.io/MalaWatch/support.html`)
-- [ ] Complete App Store Connect privacy survey (Data Not Collected)
-- [ ] Export compliance: **No** (no custom encryption beyond standard iOS)
-- [ ] Content rights: confirm you own all assets
-
-### Build Upload
-
-- [ ] Product → Archive in Xcode
-- [ ] Validate archive (catches signing issues)
-- [ ] Distribute → App Store Connect → Upload
-- [ ] Wait for processing (10–30 minutes)
-- [ ] Select build in App Store Connect version page
-- [ ] Add What's New: `Initial release of MalaWatch.`
-- [ ] Set release: **Manual release** (recommended — release when ready)
-
-### Submit
-
-- [ ] Review all sections show green checkmarks
-- [ ] Add for Review → Submit
-
----
-
-## 🚀 Submission Timeline
-
-### Days 1–2: Fix Technical Blockers
-- Connect StoreKit 2 IAP
-- Add restore purchases
-- Test sandbox purchase on device
-
-### Days 3–4: Assets
-- Design and export app icon
-- Take 5 screenshots in Simulator
-- Clean status bar, rich data in app
-
-### Days 5–6: Metadata & Privacy
-- Write privacy policy → host on GitHub Pages
-- Fill in all App Store Connect listing fields
-- Add Chinese localization
-
-### Days 7–8: Build & Upload
-- Archive and upload build
-- Complete all checklists in App Store Connect
-- Submit for review
-
-### Days 9–10: Review (Apple typical: 24–48h)
-- Monitor App Store Connect for status
-- Respond quickly to any reviewer questions
-
-### Day 11: Launch
-- Manually release once approved
-- Share link
-
----
-
-## 🔧 Common Rejection Risks
+## Common Rejection Risks
 
 | Risk | Prevention |
-|------|-----------|
-| IAP with no real purchase flow | Must connect StoreKit before submitting |
-| Restore purchases missing | Add Restore button to PremiumUpgradeView |
-| No privacy policy URL | Host before submitting |
-| App crashes on review device | Test on clean iOS 18 device |
-| Watch app not working | Reviewer may test Watch — verify pairing |
-| AVSpeechSynthesizer requires entitlement | Usually fine, but test on device |
+|---|---|
+| IAP button does nothing | Current build has no IAP UI. |
+| Missing Restore Purchases | Current build has no IAP, so Restore is not needed. |
+| Charging for Apple Watch | Watch support is included for all users. |
+| Metadata still mentions paid features | Remove paid-feature wording from description, screenshots, review notes, and IAP section. |
+| Reviewer cannot see core flow | Provide physical-device recording starting from app launch. |
+| iPad landscape looks wrong | iPhone app is portrait-only and targeted to iPhone. |
 
-**iOS 18 deployment target note:** iOS 18.0 minimum means devices on iOS 17 won't see the app. By mid-2026 iOS 18 adoption is ~85%+ so acceptable. If you want broader reach, drop to iOS 17 (would require auditing APIs used).
+## Future Monetization
 
----
+Do not charge for Apple Watch support or basic device capabilities.
 
-## 📊 Post-Launch
+Safer future options:
 
-### Week 1
-- Monitor crash reports in Xcode Organizer
-- Respond to all reviews within 24h
-- Watch keyword rankings
+- Make the app paid upfront.
+- Add an optional tip jar / supporter purchase that does not unlock required features.
+- Sell extra creative content only, such as additional bead art packs, bell sounds, guided chant recordings, or seasonal ritual packs.
+- Keep core counting, Apple Watch support, reset, 27/54/108 goals, and current included themes available without purchase unless the entire app becomes paid upfront.
 
-### Month 2
-- v1.1: Add watch complication (shows `37/108`)
-- v1.1: iCloud sync across devices
+If adding IAP later:
 
-### Month 3+
-- A/B test screenshots (which converts better?)
-- Add Traditional Chinese localization (Taiwan/HK)
-- Consider adding seasonal bead packs (Lunar New Year jade, etc.)
-
----
-
-## 📚 Resources
-
-- [App Store Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
-- [StoreKit 2 Documentation](https://developer.apple.com/documentation/storekit)
-- [App Store Connect Help](https://developer.apple.com/help/app-store-connect/)
-- [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
-- [ASO keyword best practices](https://developer.apple.com/app-store/product-page/)
-
----
+- Implement real StoreKit 2 purchase flow.
+- Add a distinct Restore Purchases button.
+- Test purchase and restore in sandbox on physical devices.
+- Ensure App Store Connect has a Paid Apps Agreement in effect.
+- Do not market Apple Watch access as a paid feature.
 
 ## Technical Reference
 
-### Bundle IDs
 | Target | Bundle ID |
-|--------|-----------|
+|---|---|
 | iOS App | `rkuo.MalaWatch` |
 | Watch App | `rkuo.MalaWatch.watchkitapp` |
-| IAP Product | `rkuo.MalaWatch.premium` |
 
-### Build Settings
 | Setting | Value |
-|---------|-------|
-| MARKETING_VERSION | 1.0.0 |
-| CURRENT_PROJECT_VERSION | 1 |
+|---|---|
+| MARKETING_VERSION | 0.1.0 |
+| CURRENT_PROJECT_VERSION | 3 |
 | iOS Deployment Target | 18.0 |
 | watchOS Deployment Target | 11.0 |
 | Swift Version | 6.0 |
