@@ -3,7 +3,7 @@
 ## Current Status
 
 - Core counter UI complete: 3D bead wheel, swipe counting, haptics.
-- Om Mani Padme Hum chant guide complete with Follow / Silent voice modes.
+- 唵嘛呢叭咪吽 chant guide complete with Follow / Silent voice modes.
 - Bead goals complete: 27 / 54 / 108.
 - Round counter and progress tracking complete.
 - Seven bead themes included for all users.
@@ -16,6 +16,9 @@
 - Privacy policy, terms, support page are hosted on GitHub Pages.
 - No In-App Purchases in the current submission.
 - No paywall, unlock button, restore purchases button, StoreKit flow, or paid Apple Watch claim in the app.
+- Chinese App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_ZH.md`.
+- Japanese App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_JA.md`.
+- Bhutan / English (U.K.) App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_BT.md`.
 
 ## App Store Listing Metadata
 
@@ -56,13 +59,13 @@ Keywords:
 ```text
 The mala counter that actually feels like practice.
 
-MalaWatch gives you a tactile 3D bead wheel, Om Mani Padme Hum chant guidance, voice support, and haptic feedback on every bead - on iPhone and Apple Watch.
+MalaWatch gives you a tactile 3D bead wheel, 唵嘛呢叭咪吽 chant guidance, voice support, and haptic feedback on every bead - on iPhone and Apple Watch.
 
 FEEL EVERY BEAD
 A weighted 3D bead wheel moves as you count. Swipe down to advance one bead. Every bead returns a soft haptic click. Reaching your goal - 27, 54, or 108 - sends a completion pulse and starts the next round.
 
 HEAR THE CHANT
-The Om Mani Padme Hum guide lights up one syllable at a time as you count. In Follow mode, the app speaks each syllable aloud - Om, Ma, Ni, Pad, Me, Hum - so your eyes and breath can stay with your practice instead of the screen. In Silent mode, the syllable guide stays visual only.
+The 唵嘛呢叭咪吽 guide lights up one syllable at a time as you count. In Follow mode, the app speaks each syllable aloud - 唵、嘛、呢、叭、咪、吽 - so your eyes and breath can stay with your practice instead of the screen. In Silent mode, the syllable guide stays visual only.
 
 TRACK YOUR ROUNDS
 Your bead count and completed rounds are always visible. Progress saves automatically, so you can leave and return to your practice without losing your place.
@@ -86,7 +89,7 @@ Privacy Policy: https://imentos.github.io/MalaWatch/privacy-policy.html
 ### Promotional Text
 
 ```text
-Count mantras on a tactile 3D bead wheel with haptic feedback, Om Mani Padme Hum guidance, and Apple Watch support.
+Count mantras on a tactile 3D bead wheel with haptic feedback, 唵嘛呢叭咪吽 guidance, and Apple Watch support.
 ```
 
 ### What's New
@@ -118,7 +121,7 @@ MalaWatch does not require an account or login.
 
 This build does not offer In-App Purchases. All current features, including Apple Watch support and bead styles, are included without purchase.
 
-The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the Om Mani Padme Hum syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
+The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the 唵嘛呢叭咪吽 syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 
 MalaWatch does not collect user data, does not use third-party SDKs, and does not require network access for core functionality. Voice guidance uses Apple's on-device AVSpeechSynthesizer.
 ```

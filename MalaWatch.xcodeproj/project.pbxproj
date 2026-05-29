@@ -12,15 +12,19 @@
 		6DD58896C5BE0BCE1252D6DF /* WatchCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A4EA74BCE92766B70285F /* WatchCounterView.swift */; };
 		7EEC091B77120739D5D6929F /* MalaCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53FB91BA8D32A88615E431 /* MalaCounter.swift */; };
 		8A94FF548F515D6327EE2967 /* MalaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9C561C2EFCDAECA215FCB /* MalaStore.swift */; };
+		9DE90F267C9A51A4CA255B7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 174F425AE0FFF8157C25D0A0 /* Localizable.strings */; };
 		B0AC2BE68A16EC3EB92126C2 /* MalaWatchIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75F2A3CCBB93BC16EAF6B7D /* MalaWatchIOSApp.swift */; };
+		D990F8381C7A85869FFD9CD8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD6522AC1C5C0434038BC3D8 /* Localizable.strings */; };
 		DB12D2F7A11B8C8DE989C197 /* MalaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FE9C561C2EFCDAECA215FCB /* MalaStore.swift */; };
 		E18055661B6C39C117F8736F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 714421227F711F7251E69635 /* Assets.xcassets */; };
 		E50A11273F29B4E5FD1B9695 /* MalaCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A53FB91BA8D32A88615E431 /* MalaCounter.swift */; };
 		E7622E2785F4A3DB41D3E886 /* MalaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A520B676FC78FD53EE318 /* MalaWatchApp.swift */; };
 		E8666F81FA7F303C9A9E6BE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55BB937A508B0BAA0054EACF /* LaunchScreen.storyboard */; };
+		F2096FF7176ABBE7B71A2D57 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF6342451BAC08BDC32F09D9 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		174F425AE0FFF8157C25D0A0 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4A8A520B676FC78FD53EE318 /* MalaWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalaWatchApp.swift; sourceTree = "<group>"; };
 		55BB937A508B0BAA0054EACF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		714421227F711F7251E69635 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -28,10 +32,12 @@
 		97E9C8ADFBA170E2DACFB7BF /* MalaWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MalaWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A53FB91BA8D32A88615E431 /* MalaCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalaCounter.swift; sourceTree = "<group>"; };
 		B9ED8460CC188ABACC6392ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CD6522AC1C5C0434038BC3D8 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D75F2A3CCBB93BC16EAF6B7D /* MalaWatchIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalaWatchIOSApp.swift; sourceTree = "<group>"; };
-		DD24C6C82C906A35A4EF1124 /* MalaWatch iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "MalaWatch iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD24C6C82C906A35A4EF1124 /* MalaWatch iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MalaWatch iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E52A4EA74BCE92766B70285F /* WatchCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCounterView.swift; sourceTree = "<group>"; };
 		EAA010C3FE2820CC548B9AF3 /* iOSCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSCounterView.swift; sourceTree = "<group>"; };
+		EF6342451BAC08BDC32F09D9 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -69,6 +75,9 @@
 				714421227F711F7251E69635 /* Assets.xcassets */,
 				EAA010C3FE2820CC548B9AF3 /* iOSCounterView.swift */,
 				55BB937A508B0BAA0054EACF /* LaunchScreen.storyboard */,
+				CD6522AC1C5C0434038BC3D8 /* Localizable.strings */,
+				EF6342451BAC08BDC32F09D9 /* Localizable.strings */,
+				174F425AE0FFF8157C25D0A0 /* Localizable.strings */,
 				D75F2A3CCBB93BC16EAF6B7D /* MalaWatchIOSApp.swift */,
 			);
 			path = "MalaWatch iOS App";
@@ -148,6 +157,9 @@
 			knownRegions = (
 				Base,
 				en,
+				ja,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = C9DA1EF81304C911C915AB55;
 			minimizedProjectReferenceProxies = 1;
@@ -169,6 +181,9 @@
 			files = (
 				E18055661B6C39C117F8736F /* Assets.xcassets in Resources */,
 				E8666F81FA7F303C9A9E6BE9 /* LaunchScreen.storyboard in Resources */,
+				F2096FF7176ABBE7B71A2D57 /* Localizable.strings in Resources */,
+				D990F8381C7A85869FFD9CD8 /* Localizable.strings in Resources */,
+				9DE90F267C9A51A4CA255B7F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,15 +228,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
-					UIInterfaceOrientationPortrait,
-				);
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -263,7 +278,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2HQJC64KR8;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -301,15 +316,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = (
-					UIInterfaceOrientationPortrait,
-				);
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -351,7 +366,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2HQJC64KR8;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -381,8 +396,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_WKWatchOnly = YES;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -394,8 +411,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_WKWatchOnly = YES;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

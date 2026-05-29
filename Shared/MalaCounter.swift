@@ -77,30 +77,30 @@ enum MalaTheme: String, Codable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .sandalwood:
-            return "Basic Wood"
+            return String(localized: "Basic Wood")
         case .rosewood:
-            return "Rosewood"
+            return String(localized: "Rosewood")
         case .walnut:
-            return "Walnut"
+            return String(localized: "Walnut")
         case .agarwood:
-            return "Agarwood"
+            return String(localized: "Agarwood")
         case .jade:
-            return "Jade"
+            return String(localized: "Jade")
         case .obsidian:
-            return "Obsidian"
+            return String(localized: "Obsidian")
         case .graphite:
-            return "Graphite"
+            return String(localized: "Graphite")
         }
     }
 
     var materialNote: String {
         switch self {
         case .sandalwood:
-            return "Included"
+            return String(localized: "Included")
         case .rosewood, .walnut, .agarwood:
-            return "Wood grain"
+            return String(localized: "Wood grain")
         case .jade, .obsidian, .graphite:
-            return "Material style"
+            return String(localized: "Material style")
         }
     }
 }

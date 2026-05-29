@@ -2,7 +2,14 @@ import AVFoundation
 import SwiftUI
 import UIKit
 
-private let chantSyllables = ["Om", "Ma", "Ni", "Pad", "Me", "Hum"]
+private let chantSyllables = [
+    String(localized: "Om"),
+    String(localized: "Ma"),
+    String(localized: "Ni"),
+    String(localized: "Pad"),
+    String(localized: "Me"),
+    String(localized: "Hum")
+]
 private let chantPronunciations = ["Ohm", "Mah", "Nee", "Pahd", "May", "Hoom"]
 
 private enum ChantVoiceMode: String, CaseIterable, Identifiable {
@@ -14,9 +21,9 @@ private enum ChantVoiceMode: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .follow:
-            return "Follow"
+            return String(localized: "Follow")
         case .silent:
-            return "Silent"
+            return String(localized: "Silent")
         }
     }
 }
@@ -26,6 +33,7 @@ struct iOSCounterView: View {
     @AppStorage("mala.chant.voiceMode") private var chantVoiceMode = ChantVoiceMode.follow.rawValue
     @AppStorage("mala.hint.swipeToCount") private var swipeHintShown = false
     @State private var spokenSyllableIndex = 0
+    @State private var nextChantSyllableIndex = 0
     @State private var chantPulse = false
     @State private var chantSpeaker = ChantSpeaker()
     @State private var showingSettings = false
@@ -76,7 +84,7 @@ struct iOSCounterView: View {
                         } label: {
                             TopIconButton(systemName: "arrow.counterclockwise")
                         }
-                        .accessibilityLabel("Reset current round")
+                        .accessibilityLabel(Text("Reset current round"))
 
                         Spacer()
 
@@ -86,7 +94,7 @@ struct iOSCounterView: View {
                         } label: {
                             TopIconButton(systemName: "gearshape")
                         }
-                        .accessibilityLabel("Settings")
+                        .accessibilityLabel(Text("Settings"))
                     }
                     .padding(.horizontal, 18)
                     .padding(.top, proxy.safeAreaInsets.top + 8)
@@ -127,6 +135,7 @@ struct iOSCounterView: View {
         chantSpeaker.stop()
         withAnimation(.spring(response: 0.24, dampingFraction: 0.62)) {
             spokenSyllableIndex = 0
+            nextChantSyllableIndex = 0
             chantPulse.toggle()
         }
         Haptics.play(.light)
@@ -135,10 +144,11 @@ struct iOSCounterView: View {
     private func countBead() {
         swipeHintShown = true
         let event = store.countBead()
-        let syllableIndex = chantIndex(forCount: max(store.counter.currentCount, 1))
+        let syllableIndex = nextChantSyllableIndex
 
         withAnimation(.spring(response: 0.24, dampingFraction: 0.56)) {
             spokenSyllableIndex = syllableIndex
+            nextChantSyllableIndex = (syllableIndex + 1) % chantSyllables.count
             chantPulse.toggle()
         }
         if chantVoiceMode == ChantVoiceMode.follow.rawValue {
@@ -151,11 +161,6 @@ struct iOSCounterView: View {
         case .completedRound:
             Haptics.notify(.success)
         }
-    }
-
-    private func chantIndex(forCount count: Int) -> Int {
-        let normalized = max(count - 1, 0)
-        return normalized % chantSyllables.count
     }
 }
 
@@ -192,7 +197,7 @@ private struct ChantGuide: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 4)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Current chant syllable, \(syllables[currentIndex])")
+        .accessibilityLabel(Text(String.localizedStringWithFormat(String(localized: "Current chant syllable, %@"), syllables[currentIndex])))
     }
 }
 
@@ -261,8 +266,8 @@ private struct MalaBeadWheel: View {
             .gesture(dragGesture)
             .animation(.spring(response: 0.34, dampingFraction: 0.78), value: counter.currentCount)
             .animation(.interactiveSpring(response: 0.24, dampingFraction: 0.82), value: dragOffset)
-            .accessibilityLabel("Mala bead wheel")
-            .accessibilityHint("Swipe down to count one bead")
+            .accessibilityLabel(Text("Mala bead wheel"))
+            .accessibilityHint(Text("Swipe down to count one bead"))
         }
     }
 
@@ -576,7 +581,7 @@ private struct ProgressInfo: View {
                 .fill(.black.opacity(0.26))
                 .frame(width: 3, height: 3)
 
-            Text("\(completedRounds) rounds")
+            Text(String.localizedStringWithFormat(String(localized: "%d rounds"), completedRounds))
                 .font(.system(size: 15, weight: .medium, design: .rounded))
                 .foregroundStyle(.black.opacity(0.44))
         }
@@ -635,9 +640,11 @@ private struct ThemeColors {
 @MainActor
 private final class ChantSpeaker {
     private let synthesizer = AVSpeechSynthesizer()
+    private var audioSessionConfigured = false
 
     func speak(_ syllable: String) {
         stop()
+        configureAudioSessionIfNeeded()
 
         let utterance = AVSpeechUtterance(string: syllable)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
@@ -650,6 +657,19 @@ private final class ChantSpeaker {
     func stop() {
         if synthesizer.isSpeaking {
             synthesizer.stopSpeaking(at: .immediate)
+        }
+    }
+
+    private func configureAudioSessionIfNeeded() {
+        guard !audioSessionConfigured else { return }
+
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .spokenAudio, options: [.duckOthers])
+            try session.setActive(true)
+            audioSessionConfigured = true
+        } catch {
+            audioSessionConfigured = false
         }
     }
 }
