@@ -12,6 +12,15 @@ settings:
     GENERATE_INFOPLIST_FILE: YES
     DEVELOPMENT_TEAM: 2HQJC64KR8
     CODE_SIGN_STYLE: Automatic
+schemes:
+  MalaWatch iOS:
+    build:
+      targets:
+        MalaWatch iOS: all
+    run:
+      config: Debug
+      storeKitConfiguration: MalaWatch.storekit
+
 targets:
   MalaWatch iOS:
     type: application

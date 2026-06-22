@@ -14,8 +14,8 @@
 - App icon is present for iOS and watchOS.
 - iPhone portrait-only orientation is configured.
 - Privacy policy, terms, support page are hosted on GitHub Pages.
-- No In-App Purchases in the current submission.
-- No paywall, unlock button, restore purchases button, StoreKit flow, or paid Apple Watch claim in the app.
+- Optional consumable support purchase only; no paid unlocks or subscriptions.
+- No paywall, unlock button, subscription, paid Apple Watch claim, or paid core feature in the app.
 - Chinese App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_ZH.md`.
 - Japanese App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_JA.md`.
 - Bhutan / English (U.K.) App Store upload copy is available in `APP_STORE_SUBMISSION_PLAN_BT.md`.
@@ -110,7 +110,7 @@ Initial release of MalaWatch.
 ### Pricing
 
 - App: Free
-- In-App Purchases: None in the current submission
+- In-App Purchases: Optional consumable support tip only
 
 ## Review Notes
 
@@ -119,7 +119,9 @@ Use this in App Review Information if needed:
 ```text
 MalaWatch does not require an account or login.
 
-This build does not offer In-App Purchases. All current features, including Apple Watch support and bead styles, are included without purchase.
+This build includes an optional consumable support purchase. It does not unlock content, subscriptions, Apple Watch access, bead styles, or any practice feature. All current app features, including Apple Watch support and bead styles, are available without purchase.
+
+Support product: rkuo.MalaWatch.support.small, type: Consumable. This is a voluntary tip/support purchase only and has no restorable entitlement.
 
 The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the 唵嘛呢叭咪吽 syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 
@@ -181,7 +183,7 @@ Hosted pages:
 
 ### Technical
 
-- [x] Remove all IAP, unlock, restore, and paid Apple Watch UI from the app.
+- [x] Remove all premium unlock, restore, and paid Apple Watch UI from the app.
 - [x] Include Apple Watch support without purchase.
 - [x] Include all bead styles without purchase.
 - [x] Add app icon assets.
@@ -196,10 +198,10 @@ Hosted pages:
 
 ### App Store Connect
 
-- [ ] Remove any In-App Purchase products from this app version.
+- [ ] Create and attach the consumable support product `rkuo.MalaWatch.support.small` to this app version.
 - [ ] Confirm pricing is Free.
 - [ ] Confirm metadata does not mention unlocks, paid Apple Watch, or paid themes.
-- [ ] Add App Review Notes saying this build has no IAP and all current features are included.
+- [ ] Add App Review Notes saying the only IAP is an optional consumable support tip that unlocks no content.
 - [ ] Upload iPhone screenshots showing actual app use.
 - [ ] Add privacy policy URL.
 - [ ] Add support URL.
@@ -211,8 +213,8 @@ Hosted pages:
 
 | Risk | Prevention |
 |---|---|
-| IAP button does nothing | Current build has no IAP UI. |
-| Missing Restore Purchases | Current build has no IAP, so Restore is not needed. |
+| Support button unavailable | Create the consumable IAP product `rkuo.MalaWatch.support.small` in App Store Connect and attach it to this app version. |
+| Missing Restore Purchases | The support product is consumable and unlocks no persistent content, so there is no restorable entitlement. |
 | Charging for Apple Watch | Watch support is included for all users. |
 | Metadata still mentions paid features | Remove paid-feature wording from description, screenshots, review notes, and IAP section. |
 | Reviewer cannot see core flow | Provide physical-device recording starting from app launch. |
@@ -229,11 +231,11 @@ Safer future options:
 - Sell extra creative content only, such as additional bead art packs, bell sounds, guided chant recordings, or seasonal ritual packs.
 - Keep core counting, Apple Watch support, reset, 27/54/108 goals, and current included themes available without purchase unless the entire app becomes paid upfront.
 
-If adding IAP later:
+If adding more IAP later:
 
 - Implement real StoreKit 2 purchase flow.
-- Add a distinct Restore Purchases button.
-- Test purchase and restore in sandbox on physical devices.
+- Add a distinct Restore Purchases button for any non-consumable or subscription products.
+- Test purchase in sandbox on physical devices, and test restore for any non-consumable or subscription products.
 - Ensure App Store Connect has a Paid Apps Agreement in effect.
 - Do not market Apple Watch access as a paid feature.
 

@@ -1,16 +1,88 @@
 import AVFoundation
+import StoreKit
 import SwiftUI
 import UIKit
 
-private let chantSyllables = [
-    String(localized: "Om"),
-    String(localized: "Ma"),
-    String(localized: "Ni"),
-    String(localized: "Pad"),
-    String(localized: "Me"),
-    String(localized: "Hum")
-]
-private let chantPronunciations = ["Ohm", "Mah", "Nee", "Pahd", "May", "Hoom"]
+private enum Mantra: String, CaseIterable, Identifiable {
+    case omManiPadmeHum
+    case namoAmitabhaBuddha
+    case custom
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .omManiPadmeHum:
+            return String(localized: "Om Mani Padme Hum")
+        case .namoAmitabhaBuddha:
+            return String(localized: "Namo Amitabha Buddha")
+        case .custom:
+            return String(localized: "Custom Mantra")
+        }
+    }
+
+    var syllables: [String] {
+        switch self {
+        case .omManiPadmeHum:
+            return [
+                String(localized: "Om"),
+                String(localized: "Ma"),
+                String(localized: "Ni"),
+                String(localized: "Pad"),
+                String(localized: "Me"),
+                String(localized: "Hum")
+            ]
+        case .namoAmitabhaBuddha:
+            return [
+                String(localized: "Na"),
+                String(localized: "Mo"),
+                String(localized: "A"),
+                String(localized: "Mi"),
+                String(localized: "Tuo"),
+                String(localized: "Fo")
+            ]
+        case .custom:
+            return []
+        }
+    }
+
+    var pronunciations: [String] {
+        switch self {
+        case .omManiPadmeHum:
+            return ["Ohm", "Mah", "Nee", "Pahd", "May", "Hoom"]
+        case .namoAmitabhaBuddha:
+            return ["Nah", "Moh", "Ah", "Mee", "Twoh", "Fo"]
+        case .custom:
+            return []
+        }
+    }
+}
+
+private func preferredSpeechLanguage() -> String {
+    let preferred = Locale.preferredLanguages.first ?? "en-US"
+    if preferred.hasPrefix("zh-Hans") { return "zh-CN" }
+    if preferred.hasPrefix("zh-Hant") { return "zh-TW" }
+    if preferred.hasPrefix("zh") { return "zh-TW" }
+    if preferred.hasPrefix("ja") { return "ja-JP" }
+    return "en-US"
+}
+
+private func customMantraSegments(from text: String) -> [String] {
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+        return [String(localized: "Custom")]
+    }
+
+    let spaceSeparated = trimmed.split(whereSeparator: { $0.isWhitespace }).map(String.init)
+    if spaceSeparated.count > 1 {
+        return Array(spaceSeparated.prefix(customMantraSegmentLimit))
+    }
+
+    return Array(trimmed.map(String.init).prefix(customMantraSegmentLimit))
+}
+
+private let customMantraSegmentLimit = 40
+private let supportProductID = "rkuo.MalaWatch.support.small"
 
 private enum ChantVoiceMode: String, CaseIterable, Identifiable {
     case follow
@@ -30,7 +102,11 @@ private enum ChantVoiceMode: String, CaseIterable, Identifiable {
 
 struct iOSCounterView: View {
     @Environment(MalaStore.self) private var store
+    @Environment(\.requestReview) private var requestReview
     @AppStorage("mala.chant.voiceMode") private var chantVoiceMode = ChantVoiceMode.follow.rawValue
+    @AppStorage("mala.chant.mantra") private var selectedMantraRawValue = Mantra.omManiPadmeHum.rawValue
+    @AppStorage("mala.chant.customText") private var customMantraText = ""
+    @AppStorage("mala.review.lastPromptRound") private var lastReviewPromptRound = 0
     @AppStorage("mala.hint.swipeToCount") private var swipeHintShown = false
     @State private var spokenSyllableIndex = 0
     @State private var nextChantSyllableIndex = 0
@@ -50,7 +126,7 @@ struct iOSCounterView: View {
 
                     VStack(spacing: 18) {
                         ChantGuide(
-                            syllables: chantSyllables,
+                            syllables: selectedMantraSyllables,
                             currentIndex: spokenSyllableIndex,
                             pulse: chantPulse
                         )
@@ -107,8 +183,18 @@ struct iOSCounterView: View {
             MalaSettingsView(
                 store: store,
                 chantVoiceMode: $chantVoiceMode,
+                selectedMantraRawValue: $selectedMantraRawValue,
+                customMantraText: $customMantraText,
                 colors: colors
             )
+        }
+        .onChange(of: selectedMantraRawValue) { _, _ in
+            resetChantGuide()
+        }
+        .onChange(of: customMantraText) { _, _ in
+            if selectedMantra == .custom {
+                resetChantGuide()
+            }
         }
     }
 
@@ -130,29 +216,57 @@ struct iOSCounterView: View {
         ThemeColors(theme: store.counter.theme)
     }
 
+    private var selectedMantra: Mantra {
+        Mantra(rawValue: selectedMantraRawValue) ?? .omManiPadmeHum
+    }
+
+    private var selectedMantraSyllables: [String] {
+        selectedMantra == .custom ? customMantraSegments(from: customMantraText) : selectedMantra.syllables
+    }
+
+    private var selectedMantraPronunciations: [String] {
+        let language = preferredSpeechLanguage()
+        if language.hasPrefix("zh") || language.hasPrefix("ja") {
+            return selectedMantraSyllables
+        }
+        return selectedMantra == .custom ? customMantraSegments(from: customMantraText) : selectedMantra.pronunciations
+    }
+
+    private var selectedSpeechLanguage: String {
+        preferredSpeechLanguage()
+    }
+
     private func resetToStartingBead() {
+        let completedRoundsBeforeReset = store.counter.completedRounds
         store.resetCurrentRound()
+        resetChantGuide()
+        Haptics.play(.light)
+        scheduleReviewPromptIfNeeded(completedRounds: completedRoundsBeforeReset)
+    }
+
+    private func resetChantGuide() {
         chantSpeaker.stop()
         withAnimation(.spring(response: 0.24, dampingFraction: 0.62)) {
             spokenSyllableIndex = 0
             nextChantSyllableIndex = 0
             chantPulse.toggle()
         }
-        Haptics.play(.light)
     }
 
     private func countBead() {
         swipeHintShown = true
         let event = store.countBead()
-        let syllableIndex = nextChantSyllableIndex
+        let syllables = selectedMantraSyllables
+        let pronunciations = selectedMantraPronunciations
+        let syllableIndex = nextChantSyllableIndex % syllables.count
 
         withAnimation(.spring(response: 0.24, dampingFraction: 0.56)) {
             spokenSyllableIndex = syllableIndex
-            nextChantSyllableIndex = (syllableIndex + 1) % chantSyllables.count
+            nextChantSyllableIndex = (syllableIndex + 1) % syllables.count
             chantPulse.toggle()
         }
         if chantVoiceMode == ChantVoiceMode.follow.rawValue {
-            chantSpeaker.speak(chantPronunciations[syllableIndex])
+            chantSpeaker.speak(pronunciations[syllableIndex], language: selectedSpeechLanguage)
         }
 
         switch event {
@@ -162,7 +276,19 @@ struct iOSCounterView: View {
             Haptics.notify(.success)
         }
     }
+
+    private func scheduleReviewPromptIfNeeded(completedRounds: Int) {
+        guard completedRounds >= 2 else { return }
+        guard completedRounds > lastReviewPromptRound else { return }
+
+        lastReviewPromptRound = completedRounds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            requestReview()
+        }
+    }
+
 }
+
 
 
 private struct ChantGuide: View {
@@ -170,9 +296,13 @@ private struct ChantGuide: View {
     let currentIndex: Int
     let pulse: Bool
 
+    private var safeCurrentIndex: Int {
+        min(max(currentIndex, 0), syllables.count - 1)
+    }
+
     var body: some View {
         VStack(spacing: 10) {
-            Text(syllables[currentIndex])
+            Text(syllables[safeCurrentIndex])
                 .font(.system(size: 52, weight: .semibold, design: .rounded))
                 .foregroundStyle(.black.opacity(0.86))
                 .minimumScaleFactor(0.7)
@@ -180,24 +310,42 @@ private struct ChantGuide: View {
                 .scaleEffect(pulse ? 1.08 : 1)
                 .shadow(color: .white.opacity(0.24), radius: 10, y: 3)
 
-            HStack(spacing: 6) {
-                ForEach(syllables.indices, id: \.self) { index in
-                    Text(syllables[index])
-                        .font(.system(size: 13, weight: index == currentIndex ? .semibold : .medium, design: .rounded))
-                        .foregroundStyle(index == currentIndex ? .black.opacity(0.84) : .black.opacity(0.42))
-                        .frame(minWidth: 42)
-                        .padding(.vertical, 7)
-                        .background(
-                            Capsule()
-                                .fill(index == currentIndex ? .white.opacity(0.55) : .white.opacity(0.16))
-                        )
+            GeometryReader { proxy in
+                ScrollViewReader { reader in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(syllables.indices, id: \.self) { index in
+                                Text(syllables[index])
+                                    .font(.system(size: 13, weight: index == safeCurrentIndex ? .semibold : .medium, design: .rounded))
+                                    .foregroundStyle(index == safeCurrentIndex ? .black.opacity(0.84) : .black.opacity(0.42))
+                                    .frame(minWidth: 42)
+                                    .padding(.vertical, 7)
+                                    .padding(.horizontal, 2)
+                                    .background(
+                                        Capsule()
+                                            .fill(index == safeCurrentIndex ? .white.opacity(0.55) : .white.opacity(0.16))
+                                    )
+                                    .id(index)
+                            }
+                        }
+                        .frame(minWidth: proxy.size.width, alignment: .center)
+                    }
+                    .onChange(of: safeCurrentIndex) { _, newIndex in
+                        withAnimation(.spring(response: 0.26, dampingFraction: 0.82)) {
+                            reader.scrollTo(newIndex, anchor: .center)
+                        }
+                    }
+                    .onAppear {
+                        reader.scrollTo(safeCurrentIndex, anchor: .center)
+                    }
                 }
             }
+            .frame(height: 34)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 4)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text(String.localizedStringWithFormat(String(localized: "Current chant syllable, %@"), syllables[currentIndex])))
+        .accessibilityLabel(Text(String.localizedStringWithFormat(String(localized: "Current chant syllable, %@"), syllables[safeCurrentIndex])))
     }
 }
 
@@ -396,6 +544,8 @@ private struct MalaSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var store: MalaStore
     @Binding var chantVoiceMode: String
+    @Binding var selectedMantraRawValue: String
+    @Binding var customMantraText: String
     let colors: ThemeColors
 
 
@@ -405,7 +555,9 @@ private struct MalaSettingsView: View {
                 VStack(spacing: 16) {
                     CounterSettingsPanel(
                         store: store,
-                        chantVoiceMode: $chantVoiceMode
+                        chantVoiceMode: $chantVoiceMode,
+                        selectedMantraRawValue: $selectedMantraRawValue,
+                        customMantraText: $customMantraText
                     )
                 }
                 .padding(18)
@@ -434,9 +586,32 @@ private struct MalaSettingsView: View {
 private struct CounterSettingsPanel: View {
     @Bindable var store: MalaStore
     @Binding var chantVoiceMode: String
+    @Binding var selectedMantraRawValue: String
+    @Binding var customMantraText: String
 
     var body: some View {
         VStack(spacing: 18) {
+            Picker("Mantra", selection: $selectedMantraRawValue) {
+                ForEach(Mantra.allCases) { mantra in
+                    Text(mantra.title).tag(mantra.rawValue)
+                }
+            }
+
+            if selectedMantraRawValue == Mantra.custom.rawValue {
+                TextField("Custom mantra text", text: $customMantraText, axis: .vertical)
+                    .textFieldStyle(.roundedBorder)
+                    .lineLimit(1...3)
+                    .submitLabel(.done)
+                    .onChange(of: customMantraText) { _, newValue in
+                        customMantraText = limitedCustomMantraText(newValue)
+                    }
+
+                Text("Custom mantra limit")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
             Picker("Voice", selection: $chantVoiceMode) {
                 ForEach(ChantVoiceMode.allCases) { mode in
                     Text(mode.title).tag(mode.rawValue)
@@ -450,6 +625,8 @@ private struct CounterSettingsPanel: View {
                 }
             }
             .pickerStyle(.segmented)
+
+            SupportMalaWatchSection()
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -479,6 +656,127 @@ private struct CounterSettingsPanel: View {
         store.counter.theme = theme
         Haptics.play(.light)
     }
+}
+
+
+private struct SupportMalaWatchSection: View {
+    @State private var supportStore = SupportPurchaseStore()
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Support MalaWatch")
+                .font(.headline)
+
+            Text("Support MalaWatch description")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Button {
+                Task { await supportStore.purchaseSupport() }
+            } label: {
+                HStack(spacing: 10) {
+                    Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
+                    Text(buttonTitle)
+                    Spacer()
+                }
+                .font(.body.weight(.semibold))
+                .foregroundStyle(.primary)
+                .padding(12)
+                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+            }
+            .buttonStyle(.plain)
+            .disabled(!supportStore.canPurchase)
+
+            if let message = supportStore.statusMessage {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .task {
+            await supportStore.loadProduct()
+        }
+    }
+
+    private var buttonTitle: String {
+        if supportStore.isPurchasing {
+            return String(localized: "Processing")
+        }
+        if let product = supportStore.product {
+            return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
+        }
+        return String(localized: "Support Unavailable")
+    }
+}
+
+@MainActor
+@Observable
+private final class SupportPurchaseStore {
+    private(set) var product: Product?
+    private(set) var isLoading = false
+    private(set) var isPurchasing = false
+    private(set) var statusMessage: String?
+
+    var canPurchase: Bool {
+        product != nil && !isLoading && !isPurchasing
+    }
+
+    func loadProduct() async {
+        guard product == nil, !isLoading else { return }
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            product = try await Product.products(for: [supportProductID]).first
+            if product == nil {
+                statusMessage = String(localized: "Support purchase unavailable")
+            }
+        } catch {
+            statusMessage = String(localized: "Support purchase unavailable")
+        }
+    }
+
+    func purchaseSupport() async {
+        guard let product, !isPurchasing else { return }
+        isPurchasing = true
+        statusMessage = nil
+        defer { isPurchasing = false }
+
+        do {
+            let result = try await product.purchase()
+            switch result {
+            case .success(let verification):
+                switch verification {
+                case .verified(let transaction):
+                    await transaction.finish()
+                    statusMessage = String(localized: "Support thank you")
+                case .unverified:
+                    statusMessage = String(localized: "Purchase could not be verified")
+                }
+            case .userCancelled:
+                break
+            case .pending:
+                statusMessage = String(localized: "Purchase pending")
+            @unknown default:
+                statusMessage = String(localized: "Purchase could not be completed")
+            }
+        } catch {
+            statusMessage = String(localized: "Purchase could not be completed")
+        }
+    }
+}
+
+private func limitedCustomMantraText(_ text: String) -> String {
+    let trimmedLeading = text.drop(while: { $0.isWhitespace })
+    let normalized = String(trimmedLeading)
+
+    let spaceSeparated = normalized.split(whereSeparator: { $0.isWhitespace }).map(String.init)
+    if spaceSeparated.count > 1 {
+        return spaceSeparated.prefix(customMantraSegmentLimit).joined(separator: " ")
+    }
+
+    return String(normalized.prefix(customMantraSegmentLimit))
 }
 
 private struct ThemeChoiceRow: View {
@@ -642,12 +940,12 @@ private final class ChantSpeaker {
     private let synthesizer = AVSpeechSynthesizer()
     private var audioSessionConfigured = false
 
-    func speak(_ syllable: String) {
+    func speak(_ syllable: String, language: String) {
         stop()
         configureAudioSessionIfNeeded()
 
         let utterance = AVSpeechUtterance(string: syllable)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.voice = AVSpeechSynthesisVoice(language: language) ?? AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = 0.38
         utterance.pitchMultiplier = 0.96
         utterance.volume = 0.85

@@ -6,7 +6,7 @@ Apple's App Store localization table lists Bhutan (`BTN`) with English (U.K.) as
 
 - App type: mala / prayer bead / mantra / meditation counter
 - Price: Free
-- In-App Purchases: None
+- In-App Purchases: Optional consumable support purchase only; it unlocks no features
 - Account login: None
 - Network requirement: None for core functionality
 - Apple Watch: Included for free, not a paid feature
@@ -102,7 +102,9 @@ Use the same English App Review Notes as the main submission:
 ```text
 MalaWatch does not require an account or login.
 
-This build does not offer In-App Purchases. All current features, including Apple Watch support and bead styles, are included without purchase.
+This build includes an optional consumable support purchase. It does not unlock content, subscriptions, Apple Watch access, bead styles, or any practice feature. All current app features, including Apple Watch support and bead styles, are available without purchase.
+
+Support product: rkuo.MalaWatch.support.small, type: Consumable. This is a voluntary tip/support purchase only and has no restorable entitlement.
 
 The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the Om Mani Padme Hum syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 

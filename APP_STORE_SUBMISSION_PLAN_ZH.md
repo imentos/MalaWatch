@@ -1,12 +1,12 @@
 # MalaWatch 中文 App Store 上架文檔
 
-這份文件是給 App Store Connect 中文上架使用。目的：讓目前「無 IAP、所有功能免費、Apple Watch 免費包含」的版本能清楚通過審核。
+這份文件是給 App Store Connect 中文上架使用。目的：讓目前「可選支持型消耗性 IAP、所有核心功能免費、Apple Watch 免費包含」的版本能清楚通過審核。
 
 ## 目前提交定位
 
 - App 類型：佛珠 / 念珠 / 持咒 / 冥想計數器
 - 價格：免費
-- In-App Purchases：無
+- In-App Purchases：可選支持型消耗性購買（不解鎖功能）
 - 帳號登入：無
 - 網路需求：無，核心功能可離線使用
 - Apple Watch：免費包含，不作為付費功能
@@ -102,7 +102,7 @@ MalaWatch 首次推出。
 ```text
 此版本不需要帳號或登入。
 
-此版本不提供 In-App Purchases。所有目前功能，包括 Apple Watch 支援與所有珠子樣式，都不需要購買即可使用。
+此版本包含一個可選的支持型消耗性 In-App Purchase。它不會解鎖內容、訂閱、Apple Watch 支援、珠子樣式或任何練習功能。所有目前功能，包括 Apple Watch 支援與珠子樣式，都不需要購買即可使用。
 
 MalaWatch 是一個離線佛珠 / 念珠 / 祈禱珠計數器，支援 iPhone 與 Apple Watch。主要流程包括：開啟 App、向下撥動 3D 佛珠計數、跟隨 唵嘛呢叭咪吽 音節引導、切換 27/54/108 顆目標、選擇珠子樣式、切換 Follow / Silent 語音模式，以及重置目前一輪。
 
@@ -114,7 +114,9 @@ MalaWatch 不收集使用者資料，不使用第三方 SDK，核心功能不需
 ```text
 MalaWatch does not require an account or login.
 
-This build does not offer In-App Purchases. All current features, including Apple Watch support and bead styles, are included without purchase.
+This build includes an optional consumable support purchase. It does not unlock content, subscriptions, Apple Watch access, bead styles, or any practice feature. All current app features, including Apple Watch support and bead styles, are available without purchase.
+
+Support product: rkuo.MalaWatch.support.small, type: Consumable. This is a voluntary tip/support purchase only and has no restorable entitlement.
 
 The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the 唵嘛呢叭咪吽 syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 
