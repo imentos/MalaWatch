@@ -1,0 +1,96 @@
+.experience { padding: 0 24px; }
+.watch-rig {
+  position: relative;
+  width: min(350px, calc(100vw - 64px));
+  padding: 74px 0;
+  isolation: isolate;
+}
+.watch-rig::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 22%;
+  border-radius: 28px;
+  background: repeating-linear-gradient(90deg, #354c42 0 2px, #456051 2px 4px, #3b5548 4px 6px);
+  box-shadow: inset 6px 0 9px #1c302b44, inset -6px 0 9px #1c302b44;
+}
+.watch-case {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 350 / 416;
+  border-radius: 25% / 21%;
+  padding: 13px;
+  background: linear-gradient(115deg, #bbbdb6, #eeeae0 18%, #868b84 41%, #c3c4bb 64%, #676e66 100%);
+  box-shadow: 0 0 0 1px #777f75, inset 0 0 0 3px #c9cec5, 0 16px 32px #20352e30;
+}
+.watch-case::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 24% / 20%;
+  background: #111412;
+  pointer-events: none;
+}
+.watch-crown {
+  position: absolute;
+  z-index: -1;
+  top: 24%;
+  right: -13px;
+  width: 18px;
+  height: 47px;
+  border: 1px solid #70786d;
+  border-radius: 5px 7px 7px 5px;
+  background: repeating-linear-gradient(0deg, #bcc1b7 0 2px, #747d72 2px 3px);
+  box-shadow: inset -3px 0 4px #53604e55;
+}
+.watch-crown:hover { filter: brightness(1.15); }
+.watch-side-button {
+  position: absolute;
+  top: 54%;
+  right: -4px;
+  width: 5px;
+  height: 57px;
+  border-radius: 0 4px 4px 0;
+  background: #889181;
+}
+.watch-case .app-screen {
+  border-radius: 23% / 19%;
+  padding: 18px 24px 23px;
+  background: linear-gradient(145deg, #241f19, #533721);
+  color: #f6ead8;
+}
+.watch-case .toolbar { width: 100%; }
+.watch-case .icon-button {
+  width: 34px;
+  height: 34px;
+  background: #f9f1e318;
+  color: #f6ead8;
+  box-shadow: none;
+}
+.watch-case .toolbar #sound { margin-right: 9px; }
+.watch-case .chant { padding-top: 5px; }
+.watch-case #syllable { font-size: 27px; min-height: 35px; line-height: 1.25; }
+.watch-case .syllables { padding: 6px 0 2px; min-height: 29px; gap: 4px; }
+.watch-case .syllables span { min-width: 24px; font-size: 10px; padding: 4px 6px; color: #d4c3ae; background: #fff1; }
+.watch-case .syllables span.active { color: #241f19; background: #ecd9b7; }
+.watch-case .wheel { min-height: 0; width: 100%; }
+.watch-case .progress { margin: 1px 0 7px; font-size: 11px; width: 100%; }
+.watch-case .progress b { font-size: 17px; }
+.watch-case .progress-track { width: 100%; }
+.watch-case dialog .icon-button { color: #302b24; background: #ded7cc; }
+.under-app { padding-top: 23px; }
+@media (max-width: 600px) {
+  .watch-rig { padding: 57px 0; width: min(330px, calc(100vw - 64px)); }
+  .watch-case .app-screen { padding: 16px 22px 22px; }
+  .watch-case .chant { padding-top: 4px; }
+  .under-app { padding-top: 20px; }
+}
+@media (max-width: 360px) {
+  .watch-rig { padding: 42px 0; }
+  .watch-case { padding: 11px; }
+  .watch-case .app-screen { padding: 13px 17px 19px; }
+  .watch-case .icon-button { width: 30px; height: 30px; }
+  .watch-case #syllable { font-size: 23px; min-height: 29px; }
+  .watch-case .syllables { gap: 2px; }
+  .watch-case .syllables span { min-width: 21px; padding: 4px; font-size: 9px; }
+}

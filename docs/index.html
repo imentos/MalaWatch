@@ -11,6 +11,7 @@
   <title>MalaWatch — One bead at a time</title>
   <link rel="icon" href="app-icon.png">
   <link rel="stylesheet" href="web.css">
+  <link rel="stylesheet" href="watch.css">
 </head>
 <body>
   <header class="site-header">
@@ -23,8 +24,10 @@
   <main>
     <div class="intro"><h1>MalaWatch</h1><p data-i18n="tagline">One bead. One breath. A little more stillness.</p></div>
     <section class="experience" aria-label="MalaWatch">
-      <div class="phone">
-        <div class="island" aria-hidden="true"></div>
+      <div class="watch-rig">
+      <div class="watch-case">
+        <button id="crown" class="watch-crown" aria-label="Count one bead" title="Count one bead"></button>
+        <div class="watch-side-button" aria-hidden="true"></div>
         <div class="app-screen">
           <div class="toolbar">
             <button id="reset" class="icon-button" aria-label="Reset" title="Reset"><i data-lucide="rotate-ccw"></i></button>
@@ -35,7 +38,6 @@
           <div id="wheel" class="wheel" role="button" tabindex="0" aria-label="Count one bead"><canvas id="beads"></canvas><div id="fallback" hidden></div></div>
           <div class="progress"><span><b id="count">0</b><span class="muted"> / <span id="goal-label">108</span></span></span><span id="rounds">0 rounds</span></div>
           <div class="progress-track"><div id="progress-fill"></div></div>
-          <div class="home-indicator" aria-hidden="true"></div>
           <dialog id="settings-dialog">
             <form method="dialog" class="dialog-heading"><h2 data-i18n="settings">Settings</h2><button class="icon-button" aria-label="Close" title="Close"><i data-lucide="x"></i></button></form>
             <label for="mantra" data-i18n="mantra">Mantra</label><select id="mantra"><option value="om">Om Mani Padme Hum</option><option value="amitabha">Namo Amitabha Buddha</option><option value="custom">Custom mantra</option></select>
@@ -46,6 +48,7 @@
           </dialog>
           <dialog id="reset-dialog"><h2 data-i18n="resetQuestion">Start again?</h2><p data-i18n="resetBody">Reset your count and completed rounds.</p><div class="reset-actions"><button id="cancel-reset" data-i18n="cancel">Cancel</button><button id="confirm-reset" data-i18n="reset">Reset</button></div></dialog>
         </div>
+      </div>
       </div>
     </section>
     <div class="under-app"><button id="share"><i data-lucide="share-2"></i><span data-i18n="share">Share a quiet moment</span></button><p data-i18n="native">Take your practice with you on iPhone & Apple Watch.</p><a data-store class="store-link" href="https://apps.apple.com/app/apple-store/id6771541960?pt=117813104&amp;ct=web-mala-demo&amp;mt=8" data-i18n="store">Download on the App Store ↗</a><span id="status" role="status"></span></div>

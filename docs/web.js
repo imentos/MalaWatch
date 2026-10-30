@@ -50,6 +50,7 @@ function update(){
   $('rounds').textContent=`${state.rounds} ${state.lang==='en'&&state.rounds===1?'round':t('rounds')}`;
   $('progress-fill').style.width=`${state.count/state.goal*100}%`;
   $('wheel').setAttribute('aria-label',`${t('count')}: ${state.count} / ${state.goal}`);
+  $('crown').title=$('crown').ariaLabel=t('count');
   $('reset').title=$('reset').ariaLabel=t('reset');
   $('settings').title=$('settings').ariaLabel=t('settings');
   $('sound').title=$('sound').ariaLabel=t(sound?'soundOn':'soundOff');
@@ -155,6 +156,7 @@ $('wheel').addEventListener('pointermove',e=>{if(!pointer||pointer.id!==e.pointe
 $('wheel').addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerId)return;const p=pointer;pointer=null;const shift=visualShift;if(p.dy>18 || (Math.abs(p.dy)<8&&Math.abs(e.clientX-p.x)<8))count(shift);else settle(shift);});
 $('wheel').addEventListener('pointercancel',()=>{pointer=null;settle(visualShift);});
 $('wheel').addEventListener('keydown',e=>{if(['Enter',' ','ArrowDown'].includes(e.key)){e.preventDefault();if(!e.repeat)count();}});
+$('crown').onclick=()=>count();
 $('settings').onclick=()=>$('settings-dialog').showModal();
 $('reset').onclick=()=>$('reset-dialog').showModal();
 $('cancel-reset').onclick=()=>$('reset-dialog').close();

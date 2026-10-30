@@ -15,8 +15,9 @@ The native iOS and watchOS targets are unchanged.
 - Native share sheet where available; copy-link fallback.
 - App Store links using `ct=web-mala-demo` and the existing provider token.
 
-The iPhone frame is shown on desktop. Small screens use the full width instead
-of nesting a phone inside a phone. No account, backend, ads, analytics scripts,
+An Apple Watch-style case and woven green band frame the demo on desktop and
+mobile. Clicking the crown also counts a bead. This is an interactive web demo,
+not a pixel-identical capture of the native watchOS app. No account, backend, ads, analytics scripts,
 or build step is required. Three.js and Lucide are vendored with their licenses.
 
 ## Preview
