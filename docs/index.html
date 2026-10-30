@@ -1,166 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MalaWatch — Prayer Bead Counter</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background: #f5f5f7;
-      color: #1d1d1f;
-      line-height: 1.6;
-    }
-    header {
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      padding: 16px 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      text-align: center;
-    }
-    header h1 { font-size: 17px; font-weight: 600; color: #1d1d1f; }
-    header p { font-size: 13px; color: #6e6e73; margin-top: 2px; }
-    nav {
-      text-align: center;
-      padding: 10px 24px;
-      font-size: 13px;
-      background: rgba(255,255,255,0.5);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-    }
-    nav a { color: #0071e3; text-decoration: none; margin: 0 10px; }
-    nav a:hover { text-decoration: underline; }
-    .hero {
-      background: linear-gradient(160deg, #1a0a06 0%, #3d1a08 50%, #6b2e0e 100%);
-      color: white;
-      text-align: center;
-      padding: 64px 24px 72px;
-    }
-    .hero-icon {
-      width: 80px;
-      height: 80px;
-      background: linear-gradient(135deg, #c8722a, #7a3510);
-      border-radius: 20px;
-      margin: 0 auto 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-    .hero h2 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
-    .hero p { font-size: 18px; color: rgba(255,255,255,0.82); max-width: 480px; margin: 0 auto 28px; }
-    .app-store-btn {
-      display: inline-block;
-      background: white;
-      color: #1d1d1f;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 13px 30px;
-      border-radius: 980px;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-    }
-    .app-store-btn:hover { opacity: 0.9; }
-    .container {
-      max-width: 720px;
-      margin: 40px auto;
-      padding: 0 24px 60px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 18px;
-      padding: 36px 40px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #1d1d1f;
-    }
-    .link-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-    }
-    @media (max-width: 520px) { .link-grid { grid-template-columns: 1fr; } }
-    .link-tile {
-      background: #f5f5f7;
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      text-decoration: none;
-      color: #1d1d1f;
-      display: block;
-      transition: background 0.15s;
-    }
-    .link-tile:hover { background: #e8e8ed; }
-    .link-tile .icon { font-size: 28px; margin-bottom: 8px; }
-    .link-tile h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-    .link-tile p { font-size: 13px; color: #6e6e73; }
-    footer {
-      text-align: center;
-      padding: 24px;
-      font-size: 13px;
-      color: #6e6e73;
-    }
-    footer a { color: #0071e3; text-decoration: none; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e9eeeb">
+  <meta name="description" content="A moment of stillness, one bead at a time. Try MalaWatch's free prayer bead counter, then take your practice to iPhone and Apple Watch.">
+  <meta property="og:title" content="MalaWatch — One bead at a time">
+  <meta property="og:description" content="Try the free, interactive mala counter. A quiet moment you can share.">
+  <meta property="og:image" content="https://imentos.github.io/MalaWatch/app-icon.png">
+  <title>MalaWatch — One bead at a time</title>
+  <link rel="icon" href="app-icon.png">
+  <link rel="stylesheet" href="web.css">
 </head>
 <body>
-
-<header>
-  <h1>MalaWatch</h1>
-  <p>Prayer Bead Counter</p>
-</header>
-
-<nav>
-  <a href="index.html">Home</a>
-  <a href="support.html">Support</a>
-  <a href="terms.html">Terms of Use</a>
-  <a href="privacy-policy.html">Privacy Policy</a>
-</nav>
-
-<div class="hero">
-  <div class="hero-icon">&#x2728;</div>
-  <h2>MalaWatch</h2>
-  <p>A beautiful mala bead counter for iPhone and Apple Watch — with 3D bead wheel, Om Mani Padme Hum chant guide, and haptic feedback.</p>
-  <a href="#" class="app-store-btn">Download on the App Store</a>
-</div>
-
-<div class="container">
-
-  <div class="card">
-    <h2>App Pages</h2>
-    <div class="link-grid">
-      <a href="support.html" class="link-tile">
-        <div class="icon">&#x2753;</div>
-        <h3>Support</h3>
-        <p>FAQs and help</p>
-      </a>
-      <a href="terms.html" class="link-tile">
-        <div class="icon">&#x1F4DC;</div>
-        <h3>Terms of Use</h3>
-        <p>Usage agreement</p>
-      </a>
-      <a href="privacy-policy.html" class="link-tile">
-        <div class="icon">&#x1F512;</div>
-        <h3>Privacy Policy</h3>
-        <p>No data collected</p>
-      </a>
+  <header class="site-header">
+    <a class="brand" href="./"><img src="app-icon.png" alt="" width="36" height="36"><span>MalaWatch</span></a>
+    <div class="header-actions">
+      <select id="language" aria-label="Language"><option value="en">English</option><option value="zh-Hant">繁體中文</option><option value="zh-Hans">简体中文</option><option value="ja">日本語</option></select>
+      <a class="download" data-store href="https://apps.apple.com/app/apple-store/id6771541960?pt=117813104&amp;ct=web-mala-demo&amp;mt=8" data-i18n="download">Get the app ↗</a>
     </div>
-  </div>
-
-</div>
-
-<footer>
-  <p>&copy; 2026 MalaWatch &nbsp;·&nbsp; <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Use</a> &nbsp;·&nbsp; <a href="support.html">Support</a></p>
-</footer>
-
+  </header>
+  <main>
+    <div class="intro"><h1>MalaWatch</h1><p data-i18n="tagline">One bead. One breath. A little more stillness.</p></div>
+    <section class="experience" aria-label="MalaWatch">
+      <div class="phone">
+        <div class="island" aria-hidden="true"></div>
+        <div class="app-screen">
+          <div class="toolbar">
+            <button id="reset" class="icon-button" aria-label="Reset" title="Reset"><i data-lucide="rotate-ccw"></i></button>
+            <button id="sound" class="icon-button" aria-label="Enable voice" title="Enable voice" aria-pressed="false"><i data-lucide="volume-x"></i></button>
+            <button id="settings" class="icon-button" aria-label="Settings" title="Settings"><i data-lucide="settings-2"></i></button>
+          </div>
+          <div class="chant"><div id="syllable">Om</div><div id="syllables" class="syllables"></div></div>
+          <div id="wheel" class="wheel" role="button" tabindex="0" aria-label="Count one bead"><canvas id="beads"></canvas><div id="fallback" hidden></div></div>
+          <div class="progress"><span><b id="count">0</b><span class="muted"> / <span id="goal-label">108</span></span></span><span id="rounds">0 rounds</span></div>
+          <div class="progress-track"><div id="progress-fill"></div></div>
+          <div class="home-indicator" aria-hidden="true"></div>
+          <dialog id="settings-dialog">
+            <form method="dialog" class="dialog-heading"><h2 data-i18n="settings">Settings</h2><button class="icon-button" aria-label="Close" title="Close"><i data-lucide="x"></i></button></form>
+            <label for="mantra" data-i18n="mantra">Mantra</label><select id="mantra"><option value="om">Om Mani Padme Hum</option><option value="amitabha">Namo Amitabha Buddha</option><option value="custom">Custom mantra</option></select>
+            <input id="custom-mantra" maxlength="160" placeholder="Your mantra" aria-label="Custom mantra" hidden>
+            <fieldset><legend data-i18n="goal">Beads per round</legend><div class="segments" id="goals"><button type="button" data-goal="27">27</button><button type="button" data-goal="54">54</button><button type="button" data-goal="108">108</button></div></fieldset>
+            <fieldset><legend data-i18n="material">Bead material</legend><div id="materials" class="materials"><button type="button" data-material="wood" style="--swatch:#ac602b" aria-label="Sandalwood" title="Sandalwood"></button><button type="button" data-material="rosewood" style="--swatch:#7d302c" aria-label="Rosewood" title="Rosewood"></button><button type="button" data-material="jade" style="--swatch:#548c74" aria-label="Jade" title="Jade"></button><button type="button" data-material="obsidian" style="--swatch:#36353b" aria-label="Obsidian" title="Obsidian"></button></div></fieldset>
+            <label class="toggle"><span data-i18n="voice">Chant voice</span><input id="voice" type="checkbox" role="switch"></label>
+          </dialog>
+          <dialog id="reset-dialog"><h2 data-i18n="resetQuestion">Start again?</h2><p data-i18n="resetBody">Reset your count and completed rounds.</p><div class="reset-actions"><button id="cancel-reset" data-i18n="cancel">Cancel</button><button id="confirm-reset" data-i18n="reset">Reset</button></div></dialog>
+        </div>
+      </div>
+    </section>
+    <div class="under-app"><button id="share"><i data-lucide="share-2"></i><span data-i18n="share">Share a quiet moment</span></button><p data-i18n="native">Take your practice with you on iPhone & Apple Watch.</p><a data-store class="store-link" href="https://apps.apple.com/app/apple-store/id6771541960?pt=117813104&amp;ct=web-mala-demo&amp;mt=8" data-i18n="store">Download on the App Store ↗</a><span id="status" role="status"></span></div>
+  </main>
+  <footer><span>© 2026 MalaWatch</span><nav><a href="support.html" data-i18n="support">Support</a><a href="privacy-policy.html" data-i18n="privacy">Privacy</a><a href="terms.html" data-i18n="terms">Terms</a></nav></footer>
+  <script src="vendor/lucide.min.js"></script>
+  <script type="module" src="web.js"></script>
 </body>
 </html>
