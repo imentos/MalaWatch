@@ -8,7 +8,7 @@ const translations = {
   ja: {download:'アプリを入手 ↗',tagline:'一粒、一呼吸。心に静かなひとときを。',settings:'設定',mantra:'真言',goal:'一巡の数珠の数',material:'数珠の素材',voice:'音声ガイド',resetQuestion:'最初から始めますか？',resetBody:'カウントと完了した周回数をリセットします。',cancel:'キャンセル',reset:'リセット',share:'静かなひとときを共有',native:'iPhone と Apple Watch で、いつでも祈りの時間を。',store:'App Store でダウンロード ↗',support:'サポート',privacy:'プライバシー',terms:'利用規約',rounds:'周',copied:'リンクをコピーしました',shareTitle:'MalaWatch — 一粒ずつ、心静かに',shareText:'数珠を一粒ずつ。静かなひとときをどうぞ。',custom:'カスタム真言',soundOn:'音声をオフ',soundOff:'音声をオン',count:'一粒数える',speechUnavailable:'このブラウザでは音声を利用できません。',shareError:'このページの URL をコピーして共有してください。'}
 };
 const defaults = {count:0,rounds:0,goal:108,chant:0,mantra:'om',custom:'',material:'wood',lang: navigator.language.startsWith('zh') ? (/TW|HK|Hant/i.test(navigator.language)?'zh-Hant':'zh-Hans') : navigator.language.startsWith('ja')?'ja':'en'};
-let state = {...defaults};
+let state = {...defaults,device:'watch'};
 try {
   const saved = JSON.parse(localStorage.getItem('malawatch-web-v1'));
   if (saved && typeof saved === 'object') {
@@ -17,6 +17,7 @@ try {
     if (['om','amitabha','custom'].includes(saved.mantra)) state.mantra=saved.mantra;
     if (['wood','rosewood','jade','obsidian'].includes(saved.material)) state.material=saved.material;
     if (translations[saved.lang]) state.lang=saved.lang;
+    if (['watch','iphone'].includes(saved.device)) state.device=saved.device;
     if (typeof saved.custom==='string') state.custom=saved.custom.slice(0,160);
     state.count=Math.min(state.count,state.goal);
   }
@@ -35,6 +36,10 @@ function syllables(){
   return isChinese()?['唵','嘛','呢','叭','咪','吽']:state.lang==='ja'?['オン','マ','ニ','ペ','メ','フン']:['Om','Ma','Ni','Pad','Me','Hum'];
 }
 function update(){
+  $('device-rig').className=state.device==='watch'?'watch-rig':'phone-rig';
+  $('device-case').className=state.device==='watch'?'watch-case':'phone';
+  $('device-switch').setAttribute('aria-label',({'en':'Device preview','zh-Hant':'裝置預覽','zh-Hans':'设备预览','ja':'デバイスプレビュー'})[state.lang]);
+  document.querySelectorAll('[data-device]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.device===state.device)));
   document.documentElement.lang=state.lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
   $('language').value=state.lang;
@@ -157,6 +162,7 @@ $('wheel').addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerI
 $('wheel').addEventListener('pointercancel',()=>{pointer=null;settle(visualShift);});
 $('wheel').addEventListener('keydown',e=>{if(['Enter',' ','ArrowDown'].includes(e.key)){e.preventDefault();if(!e.repeat)count();}});
 $('crown').onclick=()=>count();
+document.querySelectorAll('[data-device]').forEach(b=>b.onclick=()=>{state.device=b.dataset.device;update();});
 $('settings').onclick=()=>$('settings-dialog').showModal();
 $('reset').onclick=()=>$('reset-dialog').showModal();
 $('cancel-reset').onclick=()=>$('reset-dialog').close();

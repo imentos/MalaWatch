@@ -15,8 +15,10 @@ The native iOS and watchOS targets are unchanged.
 - Native share sheet where available; copy-link fallback.
 - App Store links using `ct=web-mala-demo` and the existing provider token.
 
-An Apple Watch-style case and woven green band frame the demo on desktop and
-mobile. Clicking the crown also counts a bead. This is an interactive web demo,
+Visitors can switch between iPhone and Apple Watch frames on desktop and
+mobile. Apple Watch is the default; the selection is saved in local storage.
+Counts, chant position, and settings are shared across both previews. The Watch
+has a woven green band and a clickable crown that counts a bead. This is an interactive web demo,
 not a pixel-identical capture of the native watchOS app. No account, backend, ads, analytics scripts,
 or build step is required. Three.js and Lucide are vendored with their licenses.
 

@@ -23,9 +23,14 @@
   </header>
   <main>
     <div class="intro"><h1>MalaWatch</h1><p data-i18n="tagline">One bead. One breath. A little more stillness.</p></div>
+    <div class="device-switch" role="group" aria-label="Device preview" id="device-switch">
+      <button type="button" data-device="iphone" aria-pressed="false"><i data-lucide="smartphone"></i><span>iPhone</span></button>
+      <button type="button" data-device="watch" aria-pressed="true"><i data-lucide="watch"></i><span>Apple Watch</span></button>
+    </div>
     <section class="experience" aria-label="MalaWatch">
-      <div class="watch-rig">
-      <div class="watch-case">
+      <div class="watch-rig" id="device-rig">
+      <div class="watch-case" id="device-case">
+        <div class="island" aria-hidden="true"></div>
         <button id="crown" class="watch-crown" aria-label="Count one bead" title="Count one bead"></button>
         <div class="watch-side-button" aria-hidden="true"></div>
         <div class="app-screen">
@@ -38,6 +43,7 @@
           <div id="wheel" class="wheel" role="button" tabindex="0" aria-label="Count one bead"><canvas id="beads"></canvas><div id="fallback" hidden></div></div>
           <div class="progress"><span><b id="count">0</b><span class="muted"> / <span id="goal-label">108</span></span></span><span id="rounds">0 rounds</span></div>
           <div class="progress-track"><div id="progress-fill"></div></div>
+          <div class="home-indicator" aria-hidden="true"></div>
           <dialog id="settings-dialog">
             <form method="dialog" class="dialog-heading"><h2 data-i18n="settings">Settings</h2><button class="icon-button" aria-label="Close" title="Close"><i data-lucide="x"></i></button></form>
             <label for="mantra" data-i18n="mantra">Mantra</label><select id="mantra"><option value="om">Om Mani Padme Hum</option><option value="amitabha">Namo Amitabha Buddha</option><option value="custom">Custom mantra</option></select>

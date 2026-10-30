@@ -1,4 +1,32 @@
 .experience { padding: 0 24px; }
+.device-switch {
+  display: flex;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  margin: 0 auto 24px;
+  padding: 4px;
+  gap: 4px;
+  background: #d9e2dc;
+  border-radius: 8px;
+}
+.device-switch button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 13px;
+}
+.device-switch button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 4px #20352e14; }
+.device-switch button svg { width: 17px; height: 17px; }
+.watch-case .island, .watch-case .home-indicator,
+.phone .watch-crown, .phone .watch-side-button { display: none; }
+.phone-rig { width: min(320px, calc(100vw - 48px)); }
+.phone-rig .phone { width: 100%; }
 .watch-rig {
   position: relative;
   width: min(350px, calc(100vw - 64px));
@@ -80,10 +108,24 @@
 .watch-case dialog .icon-button { color: #302b24; background: #ded7cc; }
 .under-app { padding-top: 23px; }
 @media (max-width: 600px) {
+  .device-switch { margin-bottom: 20px; }
+  .phone-rig .phone {
+    height: 584px;
+    padding: 8px;
+    border-radius: 47px;
+    background: #1b1d1c;
+    box-shadow: 0 0 0 1px #7f8880, 0 16px 32px #23423524, inset 0 0 0 3px #40433f;
+  }
+  .phone .app-screen { border-radius: 39px; padding: 52px 18px 27px; }
+  .phone .island, .phone .home-indicator { display: block; }
+  .phone .chant { padding-top: 16px; }
   .watch-rig { padding: 57px 0; width: min(330px, calc(100vw - 64px)); }
   .watch-case .app-screen { padding: 16px 22px 22px; }
   .watch-case .chant { padding-top: 4px; }
   .under-app { padding-top: 20px; }
+}
+@media (min-width: 1000px) and (min-height: 900px) {
+  .phone-rig { width: 350px; }
 }
 @media (max-width: 360px) {
   .watch-rig { padding: 42px 0; }
