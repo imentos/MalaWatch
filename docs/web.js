@@ -7,18 +7,17 @@ const translations = {
   'zh-Hans': {download:'下载 App ↗',tagline:'一颗佛珠，一次呼吸，片刻宁静。',settings:'设置',mantra:'咒语',goal:'每轮佛珠数',material:'佛珠材质',voice:'跟着念',resetQuestion:'重新开始？',resetBody:'将计数和已完成的圈数归零。',cancel:'取消',reset:'重置',share:'分享片刻宁静',native:'在 iPhone 和 Apple Watch 上，随时开始修持。',store:'前往 App Store 下载 ↗',support:'支持',privacy:'隐私',terms:'条款',rounds:'圈',copied:'已复制链接',shareTitle:'MalaWatch — 一颗佛珠，片刻宁静',shareText:'送你一个安静的片刻，一起拨佛珠。',custom:'自定义咒语',soundOn:'关闭声音',soundOff:'开启声音',count:'拨一颗佛珠',speechUnavailable:'此浏览器不支持语音。',shareError:'请复制此页网址分享。'},
   ja: {download:'アプリを入手 ↗',tagline:'一粒、一呼吸。心に静かなひとときを。',settings:'設定',mantra:'真言',goal:'一巡の数珠の数',material:'数珠の素材',voice:'音声ガイド',resetQuestion:'最初から始めますか？',resetBody:'カウントと完了した周回数をリセットします。',cancel:'キャンセル',reset:'リセット',share:'静かなひとときを共有',native:'iPhone と Apple Watch で、いつでも祈りの時間を。',store:'App Store でダウンロード ↗',support:'サポート',privacy:'プライバシー',terms:'利用規約',rounds:'周',copied:'リンクをコピーしました',shareTitle:'MalaWatch — 一粒ずつ、心静かに',shareText:'数珠を一粒ずつ。静かなひとときをどうぞ。',custom:'カスタム真言',soundOn:'音声をオフ',soundOff:'音声をオン',count:'一粒数える',speechUnavailable:'このブラウザでは音声を利用できません。',shareError:'このページの URL をコピーして共有してください。'}
 };
-const defaults = {count:0,rounds:0,goal:108,chant:0,mantra:'om',custom:'',material:'wood',lang: navigator.language.startsWith('zh') ? (/TW|HK|Hant/i.test(navigator.language)?'zh-Hant':'zh-Hans') : navigator.language.startsWith('ja')?'ja':'en'};
+const defaults = {count:0,rounds:0,goal:108,chant:0,mantra:'amitabha',material:'wood',lang: navigator.language.startsWith('zh') ? (/TW|HK|Hant/i.test(navigator.language)?'zh-Hant':'zh-Hans') : navigator.language.startsWith('ja')?'ja':'en'};
 let state = {...defaults,device:'watch'};
 try {
   const saved = JSON.parse(localStorage.getItem('malawatch-web-v1'));
   if (saved && typeof saved === 'object') {
     for (const key of ['count','rounds','chant']) if (Number.isSafeInteger(saved[key]) && saved[key]>=0) state[key]=saved[key];
     if ([27,54,108].includes(saved.goal)) state.goal=saved.goal;
-    if (['om','amitabha','custom'].includes(saved.mantra)) state.mantra=saved.mantra;
+    if (saved.mantra!=='amitabha') state.chant=0;
     if (['wood','rosewood','jade','obsidian'].includes(saved.material)) state.material=saved.material;
     if (translations[saved.lang]) state.lang=saved.lang;
     if (['watch','iphone'].includes(saved.device)) state.device=saved.device;
-    if (typeof saved.custom==='string') state.custom=saved.custom.slice(0,160);
     state.count=Math.min(state.count,state.goal);
   }
 } catch { /* Storage is optional in private browsing. */ }
@@ -28,12 +27,7 @@ const save=()=>{try{localStorage.setItem('malawatch-web-v1',JSON.stringify(state
 const t=key=>translations[state.lang][key]||translations.en[key];
 const isChinese=()=>state.lang.startsWith('zh');
 function syllables(){
-  if(state.mantra==='custom'){
-    const text=state.custom.trim();
-    return text ? ( /\s/.test(text) ? text.split(/\s+/) : Array.from(text)).slice(0,40) : [t('custom')];
-  }
-  if(state.mantra==='amitabha') return isChinese()?['南','無','阿','彌','陀','佛'].map(c=>state.lang==='zh-Hans'?({'無':'无','彌':'弥'}[c]||c):c):state.lang==='ja'?['南','無','阿','弥','陀','仏']:['Na','Mo','A','Mi','Tuo','Fo'];
-  return isChinese()?['唵','嘛','呢','叭','咪','吽']:state.lang==='ja'?['オン','マ','ニ','ペ','メ','フン']:['Om','Ma','Ni','Pad','Me','Hum'];
+  return isChinese()?['南','無','阿','彌','陀','佛'].map(c=>state.lang==='zh-Hans'?({'無':'无','彌':'弥'}[c]||c):c):state.lang==='ja'?['南','無','阿','弥','陀','仏']:['Na','Mo','A','Mi','Tuo','Fo'];
 }
 function update(){
   $('device-rig').className=state.device==='watch'?'watch-rig':'phone-rig';
@@ -43,13 +37,6 @@ function update(){
   document.documentElement.lang=state.lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));
   $('language').value=state.lang;
-  $('mantra').value=state.mantra;
-  $('mantra').options[0].textContent=isChinese()?'唵嘛呢叭咪吽':'Om Mani Padme Hum';
-  $('mantra').options[1].textContent=isChinese()?(state.lang==='zh-Hans'?'南无阿弥陀佛':'南無阿彌陀佛'):'Namo Amitabha Buddha';
-  $('mantra').options[2].textContent=t('custom');
-  $('custom-mantra').hidden=state.mantra!=='custom';
-  $('custom-mantra').value=state.custom;
-  $('custom-mantra').placeholder=t('custom');
   $('count').textContent=state.count;
   $('goal-label').textContent=state.goal;
   $('rounds').textContent=`${state.rounds} ${state.lang==='en'&&state.rounds===1?'round':t('rounds')}`;
@@ -77,7 +64,7 @@ function speak(){
   if(!sound || !('speechSynthesis' in window))return;
   const index=(state.chant-1)%syllables().length;
   let text=syllables()[index],lang=isChinese()?(state.lang==='zh-Hans'?'zh-CN':'zh-TW'):state.lang==='ja'?'ja-JP':'en-US';
-  if(state.lang==='en' && state.mantra!=='custom') text=(state.mantra==='om'?['Ohm','Mah','Nee','Pahd','May','Hoom']:['Nah','Moh','Ah','Mee','Twoh','Fo'])[index];
+  if(state.lang==='en') text=['Nah','Moh','Ah','Mee','Twoh','Fo'][index];
   const utterance=new SpeechSynthesisUtterance(text);utterance.lang=lang;utterance.rate=.72;
   speechSynthesis.cancel();speechSynthesis.speak(utterance);
 }
@@ -169,8 +156,6 @@ $('cancel-reset').onclick=()=>$('reset-dialog').close();
 $('confirm-reset').onclick=()=>{state.count=0;state.rounds=0;state.chant=0;visualShift=0;if('speechSynthesis'in window)speechSynthesis.cancel();update();render();$('reset-dialog').close();};
 $('sound').onclick=()=>setSound(!sound);$('voice').onchange=e=>setSound(e.target.checked);
 $('language').onchange=e=>{state.lang=e.target.value;update();};
-$('mantra').onchange=e=>{state.mantra=e.target.value;state.chant=0;if('speechSynthesis'in window)speechSynthesis.cancel();update();};
-$('custom-mantra').oninput=e=>{state.custom=e.target.value;state.chant=0;update();};
 document.querySelectorAll('[data-goal]').forEach(b=>b.onclick=()=>{state.goal=+b.dataset.goal;state.count=0;state.rounds=0;visualShift=0;update();render();});
 document.querySelectorAll('[data-material]').forEach(b=>b.onclick=()=>{state.material=b.dataset.material;update();render();});
 $('share').onclick=async()=>{

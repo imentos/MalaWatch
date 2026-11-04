@@ -7,11 +7,11 @@ The native iOS and watchOS targets are unchanged.
 
 - Three.js beads, downward drag or tap counting, and a red starting bead.
 - Goals of 27, 54, and 108; progress and completed rounds.
-- Om Mani Padme Hum, Namo Amitabha Buddha, and custom mantras.
+- Namo Amitabha Buddha only; other chants and custom input remain in the native app.
 - Opt-in browser speech; silent by default on each visit.
 - Sandalwood, rosewood, jade, and obsidian visual styles.
 - English, Traditional Chinese, Simplified Chinese, and Japanese.
-- Browser-local saved progress, language, mantra, and material.
+- Browser-local saved progress, language, device preview, and material.
 - Native share sheet where available; copy-link fallback.
 - App Store links using `ct=web-mala-demo` and the existing provider token.
 
@@ -57,7 +57,7 @@ cleared by browser settings. This is not an Apple Watch web companion.
 
 Check desktop and phone layouts; tap, held drag, and keyboard counting; a full
 27-bead round; 27 remaining visible before wrap; continuous chant across wrap;
-reset; long custom mantra scrolling; saved progress; all four languages;
+reset; migration from previously saved chants; saved progress; all four languages;
 material switching; sound on/off; and a WebGL-unavailable fallback.
 Check Apple campaign results in App Store Connect after promotion; this site
 does not add visitor tracking or claim a conversion rate.

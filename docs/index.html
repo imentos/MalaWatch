@@ -39,15 +39,13 @@
             <button id="sound" class="icon-button" aria-label="Enable voice" title="Enable voice" aria-pressed="false"><i data-lucide="volume-x"></i></button>
             <button id="settings" class="icon-button" aria-label="Settings" title="Settings"><i data-lucide="settings-2"></i></button>
           </div>
-          <div class="chant"><div id="syllable">Om</div><div id="syllables" class="syllables"></div></div>
+          <div class="chant"><div id="syllable">Na</div><div id="syllables" class="syllables"></div></div>
           <div id="wheel" class="wheel" role="button" tabindex="0" aria-label="Count one bead"><canvas id="beads"></canvas><div id="fallback" hidden></div></div>
           <div class="progress"><span><b id="count">0</b><span class="muted"> / <span id="goal-label">108</span></span></span><span id="rounds">0 rounds</span></div>
           <div class="progress-track"><div id="progress-fill"></div></div>
           <div class="home-indicator" aria-hidden="true"></div>
           <dialog id="settings-dialog">
             <form method="dialog" class="dialog-heading"><h2 data-i18n="settings">Settings</h2><button class="icon-button" aria-label="Close" title="Close"><i data-lucide="x"></i></button></form>
-            <label for="mantra" data-i18n="mantra">Mantra</label><select id="mantra"><option value="om">Om Mani Padme Hum</option><option value="amitabha">Namo Amitabha Buddha</option><option value="custom">Custom mantra</option></select>
-            <input id="custom-mantra" maxlength="160" placeholder="Your mantra" aria-label="Custom mantra" hidden>
             <fieldset><legend data-i18n="goal">Beads per round</legend><div class="segments" id="goals"><button type="button" data-goal="27">27</button><button type="button" data-goal="54">54</button><button type="button" data-goal="108">108</button></div></fieldset>
             <fieldset><legend data-i18n="material">Bead material</legend><div id="materials" class="materials"><button type="button" data-material="wood" style="--swatch:#ac602b" aria-label="Sandalwood" title="Sandalwood"></button><button type="button" data-material="rosewood" style="--swatch:#7d302c" aria-label="Rosewood" title="Rosewood"></button><button type="button" data-material="jade" style="--swatch:#548c74" aria-label="Jade" title="Jade"></button><button type="button" data-material="obsidian" style="--swatch:#36353b" aria-label="Obsidian" title="Obsidian"></button></div></fieldset>
             <label class="toggle"><span data-i18n="voice">Chant voice</span><input id="voice" type="checkbox" role="switch"></label>
