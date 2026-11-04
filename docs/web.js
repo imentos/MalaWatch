@@ -7,8 +7,8 @@ const translations = {
   'zh-Hans': {download:'下载 App ↗',tagline:'一颗佛珠，一次呼吸，片刻宁静。',settings:'设置',mantra:'咒语',goal:'每轮佛珠数',material:'佛珠材质',voice:'跟着念',resetQuestion:'重新开始？',resetBody:'将计数和已完成的圈数归零。',cancel:'取消',reset:'重置',share:'分享片刻宁静',native:'在 iPhone 和 Apple Watch 上，随时开始修持。',store:'前往 App Store 下载 ↗',support:'支持',privacy:'隐私',terms:'条款',rounds:'圈',copied:'已复制链接',shareTitle:'MalaWatch — 一颗佛珠，片刻宁静',shareText:'送你一个安静的片刻，一起拨佛珠。',custom:'自定义咒语',soundOn:'关闭声音',soundOff:'开启声音',count:'拨一颗佛珠',speechUnavailable:'此浏览器不支持语音。',shareError:'请复制此页网址分享。'},
   ja: {download:'アプリを入手 ↗',tagline:'一粒、一呼吸。心に静かなひとときを。',settings:'設定',mantra:'真言',goal:'一巡の数珠の数',material:'数珠の素材',voice:'音声ガイド',resetQuestion:'最初から始めますか？',resetBody:'カウントと完了した周回数をリセットします。',cancel:'キャンセル',reset:'リセット',share:'静かなひとときを共有',native:'iPhone と Apple Watch で、いつでも祈りの時間を。',store:'App Store でダウンロード ↗',support:'サポート',privacy:'プライバシー',terms:'利用規約',rounds:'周',copied:'リンクをコピーしました',shareTitle:'MalaWatch — 一粒ずつ、心静かに',shareText:'数珠を一粒ずつ。静かなひとときをどうぞ。',custom:'カスタム真言',soundOn:'音声をオフ',soundOff:'音声をオン',count:'一粒数える',speechUnavailable:'このブラウザでは音声を利用できません。',shareError:'このページの URL をコピーして共有してください。'}
 };
-const defaults = {count:0,rounds:0,goal:108,chant:0,mantra:'amitabha',material:'wood',lang: navigator.language.startsWith('zh') ? (/TW|HK|Hant/i.test(navigator.language)?'zh-Hant':'zh-Hans') : navigator.language.startsWith('ja')?'ja':'en'};
-let state = {...defaults,device:'watch'};
+const defaults = {count:0,rounds:0,goal:108,chant:0,mantra:'amitabha',material:'wood',lang:'zh-Hant',device:'iphone'};
+let state = {...defaults};
 try {
   const saved = JSON.parse(localStorage.getItem('malawatch-web-v1'));
   if (saved && typeof saved === 'object') {
