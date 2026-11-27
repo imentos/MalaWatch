@@ -681,29 +681,31 @@ private struct SupportMalaWatchSection: View {
                     .foregroundStyle(.secondary)
                     .padding(12)
             } else {
-                Picker("Support amount", selection: $supportStore.selectedProductID) {
-                    ForEach(supportStore.products) { product in
-                        Text(product.displayPrice).tag(product.id as String?)
+                HStack(spacing: 12) {
+                    Picker("Support amount", selection: $supportStore.selectedProductID) {
+                        ForEach(supportStore.products) { product in
+                            Text(product.displayPrice).tag(product.id as String?)
+                        }
                     }
-                }
-                .pickerStyle(.menu)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                    .pickerStyle(.menu)
+                    .labelsHidden()
 
-                Button {
-                    Task { await supportStore.purchaseSelected() }
-                } label: {
-                    HStack(spacing: 10) {
-                        Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
-                        Text(supportStore.buttonTitle)
-                        Spacer()
+                    Button {
+                        Task { await supportStore.purchaseSelected() }
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
+                            Text(supportStore.buttonTitle)
+                        }
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
                     }
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.primary)
-                    .padding(12)
-                    .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+                    .buttonStyle(.plain)
+                    .disabled(!supportStore.canPurchase)
                 }
-                .buttonStyle(.plain)
-                .disabled(!supportStore.canPurchase)
             }
 
             if let message = supportStore.statusMessage {
