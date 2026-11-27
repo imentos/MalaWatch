@@ -82,7 +82,11 @@ private func customMantraSegments(from text: String) -> [String] {
 }
 
 private let customMantraSegmentLimit = 40
-private let supportProductID = "rkuo.MalaWatch.support.small"
+private let supportProductIDs = [
+    "rkuo.MalaWatch.support.small",
+    "rkuo.MalaWatch.support.medium",
+    "rkuo.MalaWatch.support.large",
+]
 
 private enum ChantVoiceMode: String, CaseIterable, Identifiable {
     case follow
@@ -591,6 +595,8 @@ private struct CounterSettingsPanel: View {
 
     var body: some View {
         VStack(spacing: 18) {
+            SupportMalaWatchSection()
+
             Picker("Mantra", selection: $selectedMantraRawValue) {
                 ForEach(Mantra.allCases) { mantra in
                     Text(mantra.title).tag(mantra.rawValue)
@@ -625,8 +631,6 @@ private struct CounterSettingsPanel: View {
                 }
             }
             .pickerStyle(.segmented)
-
-            SupportMalaWatchSection()
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -671,21 +675,39 @@ private struct SupportMalaWatchSection: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Button {
-                Task { await supportStore.purchaseSupport() }
-            } label: {
-                HStack(spacing: 10) {
-                    Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
-                    Text(buttonTitle)
-                    Spacer()
+            if supportStore.products.isEmpty {
+                Text(String(localized: "Support Unavailable"))
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(12)
+            } else {
+                HStack(spacing: 12) {
+                    Button {
+                        Task { await supportStore.purchaseSelected() }
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
+                            Text(supportStore.buttonTitle)
+                            Spacer()
+                        }
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(!supportStore.canPurchase)
+
+                    Picker("Support amount", selection: $supportStore.selectedProductID) {
+                        ForEach(supportStore.products) { product in
+                            Text(product.displayPrice).tag(product.id as String?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
                 }
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.primary)
-                .padding(12)
-                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
             }
-            .buttonStyle(.plain)
-            .disabled(!supportStore.canPurchase)
 
             if let message = supportStore.statusMessage {
                 Text(message)
@@ -695,41 +717,54 @@ private struct SupportMalaWatchSection: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .task {
-            await supportStore.loadProduct()
+            await supportStore.loadProducts()
         }
-    }
-
-    private var buttonTitle: String {
-        if supportStore.isPurchasing {
-            return String(localized: "Processing")
-        }
-        if let product = supportStore.product {
-            return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
-        }
-        return String(localized: "Support Unavailable")
     }
 }
 
 @MainActor
 @Observable
 private final class SupportPurchaseStore {
-    private(set) var product: Product?
+    private(set) var products: [Product] = []
+    var selectedProductID: String?
     private(set) var isLoading = false
-    private(set) var isPurchasing = false
+    private(set) var purchasingProductID: String?
     private(set) var statusMessage: String?
 
-    var canPurchase: Bool {
-        product != nil && !isLoading && !isPurchasing
+    var selectedProduct: Product? {
+        products.first { $0.id == selectedProductID } ?? products.first
     }
 
-    func loadProduct() async {
-        guard product == nil, !isLoading else { return }
+    var isPurchasing: Bool {
+        purchasingProductID != nil
+    }
+
+    var canPurchase: Bool {
+        selectedProduct != nil && !isLoading && purchasingProductID == nil
+    }
+
+    var buttonTitle: String {
+        if isPurchasing {
+            return String(localized: "Processing")
+        }
+        if let product = selectedProduct {
+            return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
+        }
+        return String(localized: "Support Unavailable")
+    }
+
+    func loadProducts() async {
+        guard products.isEmpty, !isLoading else { return }
         isLoading = true
         defer { isLoading = false }
 
         do {
-            product = try await Product.products(for: [supportProductID]).first
-            if product == nil {
+            let loaded = try await Product.products(for: supportProductIDs)
+            products = loaded.sorted { $0.price < $1.price }
+            if selectedProductID == nil {
+                selectedProductID = products.first?.id
+            }
+            if products.isEmpty {
                 statusMessage = String(localized: "Support purchase unavailable")
             }
         } catch {
@@ -737,11 +772,16 @@ private final class SupportPurchaseStore {
         }
     }
 
-    func purchaseSupport() async {
-        guard let product, !isPurchasing else { return }
-        isPurchasing = true
+    func purchaseSelected() async {
+        guard let product = selectedProduct else { return }
+        await purchase(product)
+    }
+
+    private func purchase(_ product: Product) async {
+        guard purchasingProductID == nil else { return }
+        purchasingProductID = product.id
         statusMessage = nil
-        defer { isPurchasing = false }
+        defer { purchasingProductID = nil }
 
         do {
             let result = try await product.purchase()

@@ -121,7 +121,10 @@ MalaWatch does not require an account or login.
 
 This build includes an optional consumable support purchase. It does not unlock content, subscriptions, Apple Watch access, bead styles, or any practice feature. All current app features, including Apple Watch support and bead styles, are available without purchase.
 
-Support product: rkuo.MalaWatch.support.small, type: Consumable. This is a voluntary tip/support purchase only and has no restorable entitlement.
+Support products (all Consumable, voluntary tips only, no restorable entitlement):
+- rkuo.MalaWatch.support.small ($0.99)
+- rkuo.MalaWatch.support.medium ($2.99)
+- rkuo.MalaWatch.support.large ($4.99)
 
 The app is an offline mala / prayer bead counter for iPhone and Apple Watch. Core flows: launch the app, swipe down on the 3D bead wheel to count, follow the 唵嘛呢叭咪吽 syllable guide, change the bead goal between 27/54/108, choose a bead style, switch voice mode between Follow and Silent, and reset the current round.
 
@@ -198,7 +201,7 @@ Hosted pages:
 
 ### App Store Connect
 
-- [ ] Create and attach the consumable support product `rkuo.MalaWatch.support.small` to this app version.
+- [ ] Create and attach the consumable support products to this app version: `rkuo.MalaWatch.support.small` ($0.99), `rkuo.MalaWatch.support.medium` ($2.99), `rkuo.MalaWatch.support.large` ($4.99). Code alone does not make them purchasable — each must be created in App Store Connect first.
 - [ ] Confirm pricing is Free.
 - [ ] Confirm metadata does not mention unlocks, paid Apple Watch, or paid themes.
 - [ ] Add App Review Notes saying the only IAP is an optional consumable support tip that unlocks no content.
