@@ -30,6 +30,66 @@
       "productID": "rkuo.MalaWatch.support.small",
       "referenceName": "MalaWatch Support Small",
       "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "rkuo.MalaWatch.support.medium.local",
+      "localizations": [
+        {
+          "description": "A voluntary support tip for MalaWatch. This does not unlock any features.",
+          "displayName": "Support MalaWatch",
+          "locale": "en_US"
+        },
+        {
+          "description": "自願支持 MalaWatch。這不會解鎖任何功能。",
+          "displayName": "支持 MalaWatch",
+          "locale": "zh_Hant"
+        },
+        {
+          "description": "自愿支持 MalaWatch。这不会解锁任何功能。",
+          "displayName": "支持 MalaWatch",
+          "locale": "zh_Hans"
+        },
+        {
+          "description": "MalaWatch を任意で支援します。機能は解放されません。",
+          "displayName": "MalaWatch を支援",
+          "locale": "ja_JP"
+        }
+      ],
+      "productID": "rkuo.MalaWatch.support.medium",
+      "referenceName": "MalaWatch Support Medium",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "rkuo.MalaWatch.support.large.local",
+      "localizations": [
+        {
+          "description": "A voluntary support tip for MalaWatch. This does not unlock any features.",
+          "displayName": "Support MalaWatch",
+          "locale": "en_US"
+        },
+        {
+          "description": "自願支持 MalaWatch。這不會解鎖任何功能。",
+          "displayName": "支持 MalaWatch",
+          "locale": "zh_Hant"
+        },
+        {
+          "description": "自愿支持 MalaWatch。这不会解锁任何功能。",
+          "displayName": "支持 MalaWatch",
+          "locale": "zh_Hans"
+        },
+        {
+          "description": "MalaWatch を任意で支援します。機能は解放されません。",
+          "displayName": "MalaWatch を支援",
+          "locale": "ja_JP"
+        }
+      ],
+      "productID": "rkuo.MalaWatch.support.large",
+      "referenceName": "MalaWatch Support Large",
+      "type": "Consumable"
     }
   ],
   "settings": {

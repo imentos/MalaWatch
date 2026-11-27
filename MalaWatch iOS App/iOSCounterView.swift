@@ -82,7 +82,11 @@ private func customMantraSegments(from text: String) -> [String] {
 }
 
 private let customMantraSegmentLimit = 40
-private let supportProductID = "rkuo.MalaWatch.support.small"
+private let supportProductIDs = [
+    "rkuo.MalaWatch.support.small",
+    "rkuo.MalaWatch.support.medium",
+    "rkuo.MalaWatch.support.large",
+]
 
 private enum ChantVoiceMode: String, CaseIterable, Identifiable {
     case follow
@@ -671,21 +675,30 @@ private struct SupportMalaWatchSection: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Button {
-                Task { await supportStore.purchaseSupport() }
-            } label: {
-                HStack(spacing: 10) {
-                    Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
-                    Text(buttonTitle)
-                    Spacer()
+            if supportStore.products.isEmpty {
+                Text(String(localized: "Support Unavailable"))
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .padding(12)
+            } else {
+                ForEach(supportStore.products) { product in
+                    Button {
+                        Task { await supportStore.purchase(product) }
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: supportStore.isPurchasing(product) ? "hourglass" : "heart.fill")
+                            Text(supportStore.buttonTitle(for: product))
+                            Spacer()
+                        }
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.primary)
+                        .padding(12)
+                        .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(!supportStore.canPurchase(product))
                 }
-                .font(.body.weight(.semibold))
-                .foregroundStyle(.primary)
-                .padding(12)
-                .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
             }
-            .buttonStyle(.plain)
-            .disabled(!supportStore.canPurchase)
 
             if let message = supportStore.statusMessage {
                 Text(message)
@@ -695,41 +708,43 @@ private struct SupportMalaWatchSection: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .task {
-            await supportStore.loadProduct()
+            await supportStore.loadProducts()
         }
-    }
-
-    private var buttonTitle: String {
-        if supportStore.isPurchasing {
-            return String(localized: "Processing")
-        }
-        if let product = supportStore.product {
-            return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
-        }
-        return String(localized: "Support Unavailable")
     }
 }
 
 @MainActor
 @Observable
 private final class SupportPurchaseStore {
-    private(set) var product: Product?
+    private(set) var products: [Product] = []
     private(set) var isLoading = false
-    private(set) var isPurchasing = false
+    private(set) var purchasingProductID: String?
     private(set) var statusMessage: String?
 
-    var canPurchase: Bool {
-        product != nil && !isLoading && !isPurchasing
+    func isPurchasing(_ product: Product) -> Bool {
+        purchasingProductID == product.id
     }
 
-    func loadProduct() async {
-        guard product == nil, !isLoading else { return }
+    func canPurchase(_ product: Product) -> Bool {
+        !isLoading && purchasingProductID == nil
+    }
+
+    func buttonTitle(for product: Product) -> String {
+        if isPurchasing(product) {
+            return String(localized: "Processing")
+        }
+        return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
+    }
+
+    func loadProducts() async {
+        guard products.isEmpty, !isLoading else { return }
         isLoading = true
         defer { isLoading = false }
 
         do {
-            product = try await Product.products(for: [supportProductID]).first
-            if product == nil {
+            let loaded = try await Product.products(for: supportProductIDs)
+            products = loaded.sorted { $0.price < $1.price }
+            if products.isEmpty {
                 statusMessage = String(localized: "Support purchase unavailable")
             }
         } catch {
@@ -737,11 +752,11 @@ private final class SupportPurchaseStore {
         }
     }
 
-    func purchaseSupport() async {
-        guard let product, !isPurchasing else { return }
-        isPurchasing = true
+    func purchase(_ product: Product) async {
+        guard purchasingProductID == nil else { return }
+        purchasingProductID = product.id
         statusMessage = nil
-        defer { isPurchasing = false }
+        defer { purchasingProductID = nil }
 
         do {
             let result = try await product.purchase()
