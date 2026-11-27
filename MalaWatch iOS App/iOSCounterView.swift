@@ -682,14 +682,6 @@ private struct SupportMalaWatchSection: View {
                     .padding(12)
             } else {
                 HStack(spacing: 12) {
-                    Picker("Support amount", selection: $supportStore.selectedProductID) {
-                        ForEach(supportStore.products) { product in
-                            Text(product.displayPrice).tag(product.id as String?)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-
                     Button {
                         Task { await supportStore.purchaseSelected() }
                     } label: {
@@ -705,6 +697,14 @@ private struct SupportMalaWatchSection: View {
                     }
                     .buttonStyle(.plain)
                     .disabled(!supportStore.canPurchase)
+
+                    Picker("Support amount", selection: $supportStore.selectedProductID) {
+                        ForEach(supportStore.products) { product in
+                            Text(product.displayPrice).tag(product.id as String?)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
                 }
             }
 
