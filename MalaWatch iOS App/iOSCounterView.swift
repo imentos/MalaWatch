@@ -595,6 +595,8 @@ private struct CounterSettingsPanel: View {
 
     var body: some View {
         VStack(spacing: 18) {
+            SupportMalaWatchSection()
+
             Picker("Mantra", selection: $selectedMantraRawValue) {
                 ForEach(Mantra.allCases) { mantra in
                     Text(mantra.title).tag(mantra.rawValue)
@@ -629,8 +631,6 @@ private struct CounterSettingsPanel: View {
                 }
             }
             .pickerStyle(.segmented)
-
-            SupportMalaWatchSection()
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
