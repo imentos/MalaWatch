@@ -681,23 +681,29 @@ private struct SupportMalaWatchSection: View {
                     .foregroundStyle(.secondary)
                     .padding(12)
             } else {
-                ForEach(supportStore.products) { product in
-                    Button {
-                        Task { await supportStore.purchase(product) }
-                    } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: supportStore.isPurchasing(product) ? "hourglass" : "heart.fill")
-                            Text(supportStore.buttonTitle(for: product))
-                            Spacer()
-                        }
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.primary)
-                        .padding(12)
-                        .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+                Picker("Support amount", selection: $supportStore.selectedProductID) {
+                    ForEach(supportStore.products) { product in
+                        Text(product.displayPrice).tag(product.id as String?)
                     }
-                    .buttonStyle(.plain)
-                    .disabled(!supportStore.canPurchase(product))
                 }
+                .pickerStyle(.menu)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                Button {
+                    Task { await supportStore.purchaseSelected() }
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
+                        Text(supportStore.buttonTitle)
+                        Spacer()
+                    }
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.primary)
+                    .padding(12)
+                    .background(.white.opacity(0.24), in: RoundedRectangle(cornerRadius: 8))
+                }
+                .buttonStyle(.plain)
+                .disabled(!supportStore.canPurchase)
             }
 
             if let message = supportStore.statusMessage {
@@ -717,23 +723,31 @@ private struct SupportMalaWatchSection: View {
 @Observable
 private final class SupportPurchaseStore {
     private(set) var products: [Product] = []
+    var selectedProductID: String?
     private(set) var isLoading = false
     private(set) var purchasingProductID: String?
     private(set) var statusMessage: String?
 
-    func isPurchasing(_ product: Product) -> Bool {
-        purchasingProductID == product.id
+    var selectedProduct: Product? {
+        products.first { $0.id == selectedProductID } ?? products.first
     }
 
-    func canPurchase(_ product: Product) -> Bool {
-        !isLoading && purchasingProductID == nil
+    var isPurchasing: Bool {
+        purchasingProductID != nil
     }
 
-    func buttonTitle(for product: Product) -> String {
-        if isPurchasing(product) {
+    var canPurchase: Bool {
+        selectedProduct != nil && !isLoading && purchasingProductID == nil
+    }
+
+    var buttonTitle: String {
+        if isPurchasing {
             return String(localized: "Processing")
         }
-        return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
+        if let product = selectedProduct {
+            return String.localizedStringWithFormat(String(localized: "Support for %@"), product.displayPrice)
+        }
+        return String(localized: "Support Unavailable")
     }
 
     func loadProducts() async {
@@ -744,6 +758,9 @@ private final class SupportPurchaseStore {
         do {
             let loaded = try await Product.products(for: supportProductIDs)
             products = loaded.sorted { $0.price < $1.price }
+            if selectedProductID == nil {
+                selectedProductID = products.first?.id
+            }
             if products.isEmpty {
                 statusMessage = String(localized: "Support purchase unavailable")
             }
@@ -752,7 +769,12 @@ private final class SupportPurchaseStore {
         }
     }
 
-    func purchase(_ product: Product) async {
+    func purchaseSelected() async {
+        guard let product = selectedProduct else { return }
+        await purchase(product)
+    }
+
+    private func purchase(_ product: Product) async {
         guard purchasingProductID == nil else { return }
         purchasingProductID = product.id
         statusMessage = nil
