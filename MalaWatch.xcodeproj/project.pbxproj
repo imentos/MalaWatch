@@ -410,7 +410,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_WKWatchOnly = YES;
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -425,7 +425,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_KEY_CFBundleDisplayName = MalaWatch;
 				INFOPLIST_KEY_WKWatchOnly = YES;
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = rkuo.MalaWatch.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
