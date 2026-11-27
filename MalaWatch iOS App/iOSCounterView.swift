@@ -688,6 +688,7 @@ private struct SupportMalaWatchSection: View {
                         HStack(spacing: 8) {
                             Image(systemName: supportStore.isPurchasing ? "hourglass" : "heart.fill")
                             Text(supportStore.buttonTitle)
+                            Spacer()
                         }
                         .font(.body.weight(.semibold))
                         .foregroundStyle(.primary)
